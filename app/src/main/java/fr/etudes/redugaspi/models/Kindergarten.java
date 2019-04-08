@@ -1,4 +1,4 @@
-package fr.etudes.prepademoihm.models;
+package fr.etudes.redugaspi.models;
 
 import android.util.Log;
 import android.util.Pair;

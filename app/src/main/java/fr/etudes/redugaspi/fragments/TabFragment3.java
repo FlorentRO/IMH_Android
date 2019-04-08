@@ -1,4 +1,4 @@
-package fr.etudes.prepademoihm.fragments;
+package fr.etudes.redugaspi.fragments;
 
 
 import android.app.AlertDialog;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import fr.etudes.prepademoihm.R;
-import fr.etudes.prepademoihm.adapters.IndianAdapter;
-import fr.etudes.prepademoihm.models.Kindergarten;
+import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.adapters.IndianAdapter;
+import fr.etudes.redugaspi.models.Kindergarten;
 
 
 public class TabFragment3 extends Fragment implements IListenItem {

@@ -1,11 +1,11 @@
-package fr.etudes.prepademoihm.activities;
+package fr.etudes.redugaspi.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import fr.etudes.prepademoihm.adapters.PagerAdapter;
-import fr.etudes.prepademoihm.R;
+import fr.etudes.redugaspi.adapters.PagerAdapter;
+import fr.etudes.redugaspi.R;
 
 
 public class ManagementActivity extends AppCompatActivity {

@@ -1,16 +1,14 @@
-package fr.etudes.prepademoihm.activities;
+package fr.etudes.redugaspi.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import fr.etudes.prepademoihm.R;
-import fr.etudes.prepademoihm.models.Kindergarten;
+import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.models.Kindergarten;
 
 
 public class MainActivity extends AppCompatActivity{

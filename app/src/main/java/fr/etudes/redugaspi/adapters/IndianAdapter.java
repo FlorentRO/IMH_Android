@@ -1,4 +1,4 @@
-package fr.etudes.prepademoihm.adapters;
+package fr.etudes.redugaspi.adapters;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import fr.etudes.prepademoihm.R;
-import fr.etudes.prepademoihm.fragments.IListenItem;
+import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.fragments.IListenItem;
 
 /**
  * Modify by F. Rallo on 11/02/2018.

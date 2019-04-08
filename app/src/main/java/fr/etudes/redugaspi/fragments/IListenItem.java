@@ -1,4 +1,4 @@
-package fr.etudes.prepademoihm.fragments;
+package fr.etudes.redugaspi.fragments;
 
 
 /**

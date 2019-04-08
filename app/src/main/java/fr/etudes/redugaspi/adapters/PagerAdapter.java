@@ -1,12 +1,12 @@
-package fr.etudes.prepademoihm.adapters;
+package fr.etudes.redugaspi.adapters;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import fr.etudes.prepademoihm.fragments.TabFragment1;
-import fr.etudes.prepademoihm.fragments.TabFragment2;
-import fr.etudes.prepademoihm.fragments.TabFragment3;
+import fr.etudes.redugaspi.fragments.TabFragment1;
+import fr.etudes.redugaspi.fragments.TabFragment2;
+import fr.etudes.redugaspi.fragments.TabFragment3;
 
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
