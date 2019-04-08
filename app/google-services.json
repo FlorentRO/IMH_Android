@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "520369779554",
+    "firebase_url": "https://reduction-gaspillage.firebaseio.com",
+    "project_id": "reduction-gaspillage",
+    "storage_bucket": "reduction-gaspillage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520369779554:android:13c3c6a65bcbec53",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRgvwV2V1igKJMqS99GhHuKcB297l58-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520369779554-do3sr51cqtih4v7cseg3a8sv1pbcoej7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
