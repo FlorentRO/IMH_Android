@@ -22,9 +22,6 @@ public class TabFragment3 extends Fragment implements IListenItem {
         //inflate fragment_tab1
         final View view = inflater.inflate(R.layout.fragment_tab3, container, false);
 
-        //get valid button from fragment_tab1.xml
-        ((TextView) view.findViewById(R.id.nbChildren)).setText(getString(R.string.quantity) + Kindergarten.size());
-
         //create and arrayAdapter with a list "indians" and "cowboys"
         ArrayAdapter cowboysAdapter = new ArrayAdapter(    getContext(),
                                                             android.R.layout.simple_list_item_1,
@@ -38,11 +35,10 @@ public class TabFragment3 extends Fragment implements IListenItem {
 
 
         //get ListView indians and cowboys
-        ListView cowboysListView = view.findViewById(R.id.listViewCowboys);
+
         ListView indiansListView = view.findViewById(R.id.listViewIndians);
 
         //adapt the ListView with data adapters
-        cowboysListView.setAdapter(cowboysAdapter);
         indiansListView.setAdapter(indiansAdapter);
 
         //--> ADD : listen events on the adapter
