@@ -3,56 +3,60 @@ package fr.etudes.redugaspi.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.adapters.IndianAdapter;
 import fr.etudes.redugaspi.models.Kindergarten;
+import fr.etudes.redugaspi.models.Users;
 
 
 public class TabFragment3 extends Fragment implements IListenItem {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //inflate fragment_tab1
         final View view = inflater.inflate(R.layout.fragment_tab3, container, false);
+        List<Users> users = new ArrayList<Users>();
+                users.add(new Users("madame",0606060600));
+                users.add(new Users("monsieur",0706060600));
+                users.add(new Users("florent",0606060600));
+                users.add(new Users("aldric",0606060600));
+                users.add(new Users("couette",0006060600));
 
-        //create and arrayAdapter with a list "indians" and "cowboys"
-        ArrayAdapter cowboysAdapter = new ArrayAdapter(    getContext(),
-                                                            android.R.layout.simple_list_item_1,
-                                                            Kindergarten.getListOne() );
-/*--> change :
-        ArrayAdapter indiansAdapter = new ArrayAdapter(    getContext(),
-                                                            android.R.layout.simple_list_item_1,
-                                                            Kindergarten.getListTwo() );
-*/
         IndianAdapter indiansAdapter = new IndianAdapter(getContext(), Kindergarten.getListTwo());
-        Button callButton = view.findViewById(R.id.callButton);
-        callButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("MissingPermission")
+
+        Button addAmi = view.findViewById(R.id.addAmi);
+        addAmi.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0606060606", null));
-                startActivity(callIntent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                final EditText input = new EditText(getContext());
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+                builder.setTitle("Ajouter un ami");
+                builder.setMessage("Qui voulez vous ajouter ?");
+                builder.setNeutralButton("Annuler", null);
+                builder.setPositiveButton("Ajouter",null);
+                builder.show();
+
             }});
 
-        Button mailButton = view.findViewById(R.id.mailButton);
-        mailButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_VIEW);
-                Uri data = Uri.parse("mailto:" + "0606060606" + "?subject=" + "Salut" + "&body=" + "");
-                emailIntent.setData(data);
-                startActivity(emailIntent);
-            }
-        });
+        EditText recherche = view.findViewById(R.id.textView);
 
         //get ListView indians and cowboys
 
@@ -60,9 +64,24 @@ public class TabFragment3 extends Fragment implements IListenItem {
 
         //adapt the ListView with data adapters
         indiansListView.setAdapter(indiansAdapter);
+        indiansListView.setTextFilterEnabled(true);
 
         //--> ADD : listen events on the adapter
         indiansAdapter.addListener(this);
+
+        recherche.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+            }
+
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+            }
+
+            public void afterTextChanged(Editable arg0) {
+                //activity.this.adapter.getFilter().filter(arg0);
+            }
+        });
         return view;
     }
 
@@ -74,9 +93,24 @@ public class TabFragment3 extends Fragment implements IListenItem {
     @Override
     public void onClickName(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("INFORMATION");
-        builder.setMessage("You have selected " + name + "'s indian");
-        builder.setNeutralButton("ON", null);
+        builder.setTitle("INFORMATION - "+name);
+        builder.setMessage("Que voulez vous faire ?");
+        builder.setNeutralButton("Rien", null);
+        builder.setPositiveButton("Appeler",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0606060606", null));
+                        startActivity(callIntent);
+                    }
+                });
+        builder.setNegativeButton("SMS",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "0606060606", null)));
+                    }
+                });
         builder.show();
     }
 }

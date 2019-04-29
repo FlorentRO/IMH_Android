@@ -58,6 +58,10 @@ public class Kindergarten {
         return listTow;
     }
 
+    public static List<Pair<String,String>> getList(){
+        return completeList;
+    }
+
     public static int sizeOfTwo() {
        int size = 0;
         for (Pair person : completeList) {
