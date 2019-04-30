@@ -1,5 +1,6 @@
 package fr.etudes.redugaspi.fragments;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,28 +18,29 @@ import fr.etudes.redugaspi.models.Kindergarten;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabFragment2 extends Fragment {
+public class FragProducts extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //inflate fragment_tab1
-        final View view = inflater.inflate(R.layout.fragment_tab2, container, false);
+        final View view = inflater.inflate(R.layout.fragment_tab1, container, false);
 
         //get valid button from fragment_tab1.xml
         Button valid = view.findViewById(R.id.valid);
 
         //update nbCowboys TextView (present in fragment_tab1.xml
-        ((TextView) view.findViewById(R.id.nbIndians)).setText(getString(R.string.quantity) + Kindergarten.sizeOfOne());
+        ((TextView) view.findViewById(R.id.nbCowboys)).setText(getString(R.string.quantity) + Kindergarten.sizeOfTwo());
+
 
         //set OnClick Listener on valid button
-            //add an "indian" to the Kindergarten
-            //update TextView nbIndians
-            //empty EditText editTextName
+                //add an "indian" to the Kindergarten
+                //update TextView nbIndians
+                //empty EditText editTextName
         valid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Kindergarten.add(Kindergarten.TEAM1, ((EditText) view.findViewById(R.id.editTextName)).getText().toString());
-                ((TextView) view.findViewById(R.id.nbIndians)).setText(getString(R.string.quantity) + Kindergarten.sizeOfOne());
+                Kindergarten.add(Kindergarten.TEAM2, ((EditText) view.findViewById(R.id.editTextName)).getText().toString());
+                ((TextView) view.findViewById(R.id.nbCowboys)).setText(getString(R.string.quantity) + Kindergarten.sizeOfTwo());
                 ((EditText) view.findViewById(R.id.editTextName)).setText("");
             }
         });
