@@ -1,10 +1,10 @@
 package fr.etudes.redugaspi.models;
 
-public class Users {
+public class User {
     private String name;
     private Number num;
 
-    public Users(String name, Number num) {
+    public User(String name, Number num) {
         this.name = name;
         this.num = num;
     }

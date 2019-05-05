@@ -1,14 +1,8 @@
 <resources>
-    <string name="app_name">PrepaDemoIHM</string>
+    <string name="app_name">RéduGaspi</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="txt_fragment1">Hello Cowboy, what is your name?</string>
-    <string name="txt_fragment2">Houba, what is your indian name?</string>
-    <string name="txt_fragment3">Mes amis</string>
     <string name="type_name_here">type name here</string>
     <string name="ok">ok</string>
-    <string name="image_of_girl">image of girl</string>
-    <string name="quantity">Quantity:</string>
     <string name="connexion">Connexion</string>
     <string name="inscription">Inscription</string>
     <string name="identifiant">Identifiant :</string>

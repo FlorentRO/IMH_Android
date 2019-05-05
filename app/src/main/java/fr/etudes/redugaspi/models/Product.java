@@ -1,25 +1,52 @@
 package fr.etudes.redugaspi.models;
 
-public class User {
+public class Product {
     private String name;
-    private Number num;
+    private int day;
+    private int month;
+    private int year;
 
-    public User(String name, Number num) {
-        this.name = name;
-        this.num = num;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public String getPseudo() {
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    private int quantity;
+
+    public Product(String name, int quantity, int day, int month, int year) {
+        this.name = name;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.quantity = quantity;
+    }
+
+    public String getName() {
         return name;
     }
-    public void setPseudo(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Number getNum() {
-        return num;
+
+    public int getDay() {
+        return day;
     }
-    public void setNum(Number num) {
-        this.num = num;
+
+    public int getMonth() {
+        return month;
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getDate() {
+        return day + " / " + month + " / " + year;
+    }
+
+
 }

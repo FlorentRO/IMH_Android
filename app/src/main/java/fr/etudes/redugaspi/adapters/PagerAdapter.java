@@ -4,9 +4,9 @@ package fr.etudes.redugaspi.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import fr.etudes.redugaspi.fragments.TabFragment1;
-import fr.etudes.redugaspi.fragments.TabFragment2;
-import fr.etudes.redugaspi.fragments.TabFragment3;
+import fr.etudes.redugaspi.fragments.FragProducts;
+import fr.etudes.redugaspi.fragments.FragAdverts;
+import fr.etudes.redugaspi.fragments.FragFriends;
 
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -17,21 +17,14 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         this.nbTab = numTab;
     }
 
-    /**
-     * automatically called by android when viewPager use setCurrentItem() method
-     * @param i the num of tab selected
-     * @return Fragment to be adapted
-     */
     @Override
     public Fragment getItem(int i) {
-        //create TabFragment1, TabFragment2 or TabFragment3
-        Fragment fragment = null;
         switch (i){
-            case 0 : fragment = new TabFragment1(); break;
-            case 1 : fragment = new TabFragment2(); break;
-            case 2 : fragment = new TabFragment3(); break;
+            case 0 : return new FragProducts();
+            case 1 : return new FragAdverts();
+            case 2 : return new FragFriends();
+            default: return null;
         }
-        return fragment;
     }
 
     @Override

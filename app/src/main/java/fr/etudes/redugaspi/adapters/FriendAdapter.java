@@ -35,9 +35,9 @@ public class FriendAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.indian_layout, parent, false);
+        ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.friend_row_layout, parent, false);
 
-        TextView name = layoutItem.findViewById(R.id.name);
+        TextView name = layoutItem.findViewById(R.id.prd_date);
 
         name.setText(listView.get(position)+"");
         Log.d("ADAPTER","position="+position);
@@ -45,13 +45,9 @@ public class FriendAdapter extends BaseAdapter {
 
         name.setTag(position);
 
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Integer position = (Integer)v.getTag();
-                //TODO vérifier si unécouteur==null ou si maListeDeDiplome==null
-                listViewListen.onClickName(listView.get(position)+"");
-            }
+        name.setOnClickListener(v -> {
+            Integer position1 = (Integer)v.getTag();
+            listViewListen.onClickName(listView.get(position1)+"");
         });
         return layoutItem;
     }

@@ -1,49 +1,46 @@
 package fr.etudes.redugaspi.fragments;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.models.Kindergarten;
+import fr.etudes.redugaspi.adapters.ProductAdapter;
+import fr.etudes.redugaspi.models.Product;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragProducts extends Fragment {
+public class FragProducts extends Fragment implements IListenItem {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //inflate fragment_tab1
-        final View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        final View view = inflater.inflate(R.layout.frag_products, container, false);
 
-        //get valid button from fragment_tab1.xml
-        Button valid = view.findViewById(R.id.valid);
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Cordon bleu", 1, 1, 1, 1970));
+        products.add(new Product("Cordon bleu", 2, 2, 2, 1970));
+        products.add(new Product("Cordon bleu", 3, 3, 3, 1970));
+        products.add(new Product("Cordon bleu", 4, 4, 4, 1970));
 
-        //update nbCowboys TextView (present in fragment_tab1.xml
-        ((TextView) view.findViewById(R.id.nbCowboys)).setText(getString(R.string.quantity) + Kindergarten.sizeOfTwo());
+        ProductAdapter adapter = new ProductAdapter(getContext(), products);
 
+        ListView productListView = view.findViewById(R.id.lst_product);
 
-        //set OnClick Listener on valid button
-                //add an "indian" to the Kindergarten
-                //update TextView nbIndians
-                //empty EditText editTextName
-        valid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Kindergarten.add(Kindergarten.TEAM2, ((EditText) view.findViewById(R.id.editTextName)).getText().toString());
-                ((TextView) view.findViewById(R.id.nbCowboys)).setText(getString(R.string.quantity) + Kindergarten.sizeOfTwo());
-                ((EditText) view.findViewById(R.id.editTextName)).setText("");
-            }
-        });
+        productListView.setAdapter(adapter);
+        productListView.setTextFilterEnabled(true);
+
+        adapter.addListener(this);
+
         return view;
+    }
+
+    @Override
+    public void onClickName(String name) {
+        Toast.makeText(getContext(), "...", Toast.LENGTH_LONG).show();
     }
 }

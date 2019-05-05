@@ -38,8 +38,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/type_name_here"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintStart_toStartOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/prd_epiry_date"
+        app:layout_constraintStart_toStartOf="@id/prd_epiry_date" />
 
     <Button
         android:id="@+id/valid"
