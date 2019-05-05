@@ -27,11 +27,18 @@ public class FragFriends extends Fragment implements IListenItem {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);
         List<User> users = new ArrayList<User>();
-                users.add(new User("madame",0606060600));
-                users.add(new User("monsieur",0706060600));
-                users.add(new User("florent",0606060600));
-                users.add(new User("aldric",0606060600));
-                users.add(new User("couette",0006060600));
+                users.add(new User("Corinne Renardo",0606060600));
+                users.add(new User("Bertrand Dupont",0706060600));
+                users.add(new User("Florent Kinowa",0606060600));
+                users.add(new User("Aldric Neogeekmo",0606060600));
+                users.add(new User("Couette Inaccoutumé",0006060600));
+                users.add(new User("William Daubard",0006060600));
+                users.add(new User("Aelita Stone",0006060600));
+                users.add(new User("Harry Potter",0006060600));
+                users.add(new User("Voajaje Travajer",0006060600));
+                users.add(new User("Jaiplus Didée",0006060600));
+                users.add(new User("Encore Undernier",0006060600));
+
 
         FriendAdapter friendAdapter= new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
 
