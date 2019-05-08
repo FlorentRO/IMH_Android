@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
+    android:background="#FFFFFF"
     tools:context=".activities.ManagementActivity">
 
     <Button
         android:id="@+id/AjoutProduit"
-        android:layout_width="103dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:text="Ajouter"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:onClick="barcodeReco"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="@+id/RechercheProduit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txt_search_friend"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/RechercheProduit"
         android:layout_width="275dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:hint="Recherche ..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/search"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textFilter" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="390dp"
-        android:layout_height="653dp"
-        android:layout_marginBottom="14dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RechercheProduit"
+        android:baselineAligned="false">
 
         <ListView
             android:id="@+id/lst_product"
-            android:layout_width="282dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:choiceMode="singleChoice" />
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout >
+</android.support.constraint.ConstraintLayout>
