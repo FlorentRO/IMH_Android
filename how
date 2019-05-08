@@ -1,0 +1,55 @@
+[33mcommit b91ea454b2f4f4044fd37e2e38d91a397eb1415e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Theo-Fafet <theo.fafet@etu.unice.fr>
+Date:   Tue Apr 30 19:05:38 2019 +0200
+
+    Code clean-up and add product fragment
+    
+    Remove all unecessary code from course's examples
+
+[33mcommit 26e836b4d12ccfdfe7fe7bd55b8ba2c2d03666b5[m
+Author: FlorentRO <florent.robert@etu.unice.fr>
+Date:   Mon Apr 29 16:39:31 2019 +0200
+
+    Ami+Appel+SMS
+
+[33mcommit 44547902ee4db5306725359365a096741717f51e[m
+Author: FlorentRO <florent.robert@etu.unice.fr>
+Date:   Sun Apr 28 20:43:18 2019 +0200
+
+    AmiTest
+
+[33mcommit 25c8952ced2fcd90f2928d6ecdebfe3771cd0905[m
+Author: FlorentRO <florent.robert@etu.unice.fr>
+Date:   Sun Apr 28 17:53:30 2019 +0200
+
+    Debut_Ami
+
+[33mcommit 3123610833b0f0e9e26249cd8a6d4843fa3fc619[m
+Author: Aldric <neogeekmo@live.fr>
+Date:   Mon Apr 8 18:00:31 2019 +0200
+
+    add module codebar
+
+[33mcommit 6b6a34b3368507b995ec781cdd567522fec74a12[m
+Author: Aldric <neogeekmo@live.fr>
+Date:   Mon Apr 8 16:01:03 2019 +0200
+
+    refonte nom package
+
+[33mcommit f9b306f529935a4834764f5aafa7bb5c410f5cd0[m
+Author: FlorentRO <florent.robert@etu.unice.fr>
+Date:   Mon Apr 8 15:20:28 2019 +0200
+
+    Scenar & Proto
+
+[33mcommit a321069c9137090af81c104f7b982e5b1c8489a6[m
+Author: FlorentRO <florent.robert@etu.unice.fr>
+Date:   Mon Apr 8 15:03:35 2019 +0200
+
+    Init
+
+[33mcommit c3bcf640c015b2ab69d000edbad852e6e3d96613[m
+Author: FlorentRO <36162384+FlorentRO@users.noreply.github.com>
+Date:   Mon Apr 8 14:51:03 2019 +0200
+
+    Initial commit

@@ -4,9 +4,10 @@ package fr.etudes.redugaspi.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import fr.etudes.redugaspi.fragments.FragProducts;
+
 import fr.etudes.redugaspi.fragments.FragAdverts;
 import fr.etudes.redugaspi.fragments.FragFriends;
+import fr.etudes.redugaspi.fragments.FragProducts;
 
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
@@ -31,4 +32,5 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return nbTab;
     }
+
 }

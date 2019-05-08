@@ -1,7 +1,8 @@
 package fr.etudes.redugaspi.models;
 
 public class Product {
-    private String name;
+
+    private String barCode;
     private int day;
     private int month;
     private int year;
@@ -16,21 +17,17 @@ public class Product {
 
     private int quantity;
 
-    public Product(String name, int quantity, int day, int month, int year) {
-        this.name = name;
+    public Product(String barCode, int quantity, int day, int month, int year) {
+        this.barCode = barCode;
         this.day = day;
         this.month = month;
         this.year = year;
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public String getBarCode() {
+        return barCode;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-
 
     public int getDay() {
         return day;
@@ -47,6 +44,5 @@ public class Product {
     public String getDate() {
         return day + " / " + month + " / " + year;
     }
-
 
 }

@@ -36,7 +36,6 @@ public class FriendAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.friend_row_layout, parent, false);
-
         TextView name = layoutItem.findViewById(R.id.prd_date);
 
         name.setText(listView.get(position)+"");

@@ -45,8 +45,7 @@ public class ManagementActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Produits"));
         tabLayout.addTab(tabLayout.newTab().setText("Annonces"));
         tabLayout.addTab(tabLayout.newTab().setText("Amis"));
-
-        adapter = new PagerAdapter( getSupportFragmentManager(), tabLayout.getTabCount() );
+        adapter = new PagerAdapter( getSupportFragmentManager(), tabLayout.getTabCount());
 
         final ViewPager viewPager = findViewById(R.id.main_pager);
         viewPager.setAdapter(adapter);

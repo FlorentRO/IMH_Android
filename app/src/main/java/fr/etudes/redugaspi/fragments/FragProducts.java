@@ -22,10 +22,10 @@ public class FragProducts extends Fragment implements IListenItem {
         final View view = inflater.inflate(R.layout.frag_products, container, false);
 
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("Cordon bleu", 1, 1, 1, 1970));
-        products.add(new Product("Cordon bleu", 2, 2, 2, 1970));
-        products.add(new Product("Cordon bleu", 3, 3, 3, 1970));
-        products.add(new Product("Cordon bleu", 4, 4, 4, 1970));
+        products.add(new Product("3116430210371", 1, 1, 1, 1970));
+        products.add(new Product("3116430210371", 2, 2, 2, 1970));
+        products.add(new Product("3116430210371", 3, 3, 3, 1970));
+        products.add(new Product("3116430210371", 4, 4, 4, 1970));
 
         ProductAdapter adapter = new ProductAdapter(getContext(), products);
 

@@ -23,21 +23,9 @@ public class MainActivity extends AppCompatActivity{
         final EditText mdp = findViewById(R.id.mdp);
         final TextView error = findViewById(R.id.error);
 
-        valid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(id.getText());
-                System.out.println(mdp.getText());
-                System.out.println(id.getText().equals("mdp"));
-                if ( (id.getText().toString().equals("corinne") || id.getText().toString().equals("bertrand") )
-                        && mdp.getText().toString().equals("mdp") ) {
-                    error.setVisibility(View.INVISIBLE);
-                    Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
-                    startActivity(intent);
-                } else {
-                    error.setVisibility(View.VISIBLE);
-                }
-            }
+        valid.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
+            startActivity(intent);
         });
     }
 
