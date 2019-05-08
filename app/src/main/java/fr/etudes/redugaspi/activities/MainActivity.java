@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Button valid = findViewById(R.id.connect);
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        if (!Utils.allPermissionsGranted(this)) {
+            Utils.requestRuntimePermissions(this);
+        }
     }
 
     @Override
