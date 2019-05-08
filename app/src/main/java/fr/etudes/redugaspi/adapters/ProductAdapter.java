@@ -1,7 +1,7 @@
 package fr.etudes.redugaspi.adapters;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +19,7 @@ import java.util.List;
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Product;
-import fr.etudes.redugaspi.services.ProductInfoService;
+import fr.etudes.redugaspi.services.DownloadManager;
 
 public class ProductAdapter extends BaseAdapter {
     private List listView;
@@ -53,16 +53,15 @@ public class ProductAdapter extends BaseAdapter {
 
         Product product = (Product) listView.get(position);
 
+        JSONObject json = DownloadManager.getProductData(parent.getContext(), product.getBarCode());
+
         try {
-            JSONObject json = ProductInfoService.getProductData(product.getBarCode());
-            //image.setImageURI(Uri.parse(json.getJSONObject("product").getString("image_thumb_url")));
-            //name.setText(json.getJSONObject("product").getString("product_name"));
-
-
-            Log.d("", json.toString());
-
-        } catch (Exception ignored){}
-
+            name.setText(json.getJSONObject("product").getString("product_name"));
+            Bitmap bitmap = DownloadManager.getImage(parent.getContext(), product.getBarCode());
+            image.setImageBitmap(bitmap);
+        } catch (JSONException e) {
+            Log.e("ERROR", e.getMessage());
+        }
         name.setTag(position);
 
         quantity.setText("x"+product.getQuantity());
