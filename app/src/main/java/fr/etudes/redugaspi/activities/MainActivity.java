@@ -37,14 +37,9 @@ public class MainActivity extends AppCompatActivity{
         Database.LoadAll(this);
         MOCK_DATABASE();
         setupNotifications();
-
         setContentView(R.layout.activity_main);
-        Button valid = findViewById(R.id.connect);
-        valid.setOnClickListener(v -> {
-            
-            Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
-            startActivity(intent);
-        });
+        Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
+        startActivity(intent);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
     }
