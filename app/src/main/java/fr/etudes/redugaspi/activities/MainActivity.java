@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity{
         Button valid = findViewById(R.id.connect);
         valid.setOnClickListener(v -> {
 
+        valid.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
             startActivity(intent);
-
         });
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

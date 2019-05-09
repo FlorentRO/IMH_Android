@@ -1,19 +1,19 @@
 package fr.etudes.redugaspi.fragments;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import fr.etudes.redugaspi.models.User;
 
 public class FragFriends extends Fragment implements IListenItem {
     List<User> users = new ArrayList<User>();
-
     public static FragFriends newInstance() {
         return (new FragFriends());
     }
@@ -33,35 +32,7 @@ public class FragFriends extends Fragment implements IListenItem {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);
-
-        //Liste d'ami de base
-        users.add(new User("Corinne Renardo",0606060600));
-        users.add(new User("Bertrand Dupont",0706060600));
-        users.add(new User("Florent Kinowa",0606060600));
-        users.add(new User("Aldric Neogeekmo",0606060600));
-        users.add(new User("Couette Inaccoutumé",0006060600));
-        users.add(new User("William Daubard",0006060600));
-        users.add(new User("Aelita Stone",0006060600));
-        users.add(new User("Harry Potter",0006060600));
-        users.add(new User("Voajaje Travajer",0006060600));
-        users.add(new User("Jaiplus Didée",0006060600));
-        users.add(new User("Encore Undernier",0006060600));
-
-        //Add un ami
-        Button btnAddFriend = view.findViewById(R.id.btn_add_friend);
-        btnAddFriend.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(FragFriends.this.getContext());
-            final EditText input = new EditText(FragFriends.this.getContext());
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
-            builder.setTitle("Ajouter un ami");
-            builder.setMessage("Qui voulez vous ajouter ?");
-            builder.setNeutralButton("Annuler", null);
-            builder.setPositiveButton("Ajouter", (dialog, id) -> {
-                addAmi(input.toString());
-            });
-            builder.show();
-        });
+        getContactList();
 
         //Liste ami dans la liste
         FriendAdapter friendAdapter= new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
@@ -80,6 +51,38 @@ public class FragFriends extends Fragment implements IListenItem {
         return view;
     }
 
+    private void getContactList() {
+        ContentResolver cr = getActivity().getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+
+        if ((cur != null ? cur.getCount() : 0) > 0) {
+            while (cur != null && cur.moveToNext()) {
+                String id = cur.getString(
+                        cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(
+                        ContactsContract.Contacts.DISPLAY_NAME));
+
+                if (cur.getInt(cur.getColumnIndex(
+                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                    Cursor pCur = cr.query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                            new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        String phoneNo = pCur.getString(pCur.getColumnIndex(
+                                ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        users.add(new User(name,Integer.parseInt(phoneNo)));
+                    }
+                    pCur.close();
+                }
+            }
+        }
+        if(cur!=null){
+            cur.close();
+        }
+    }
     @Override
     public void onClickName(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -96,7 +99,4 @@ public class FragFriends extends Fragment implements IListenItem {
         builder.show();
     }
 
-    public void addAmi(String input){
-        users.add(new User(input,0606060600));
-    }
 }
