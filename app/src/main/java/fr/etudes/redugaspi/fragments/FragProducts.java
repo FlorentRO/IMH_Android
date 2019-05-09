@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.adapters.ProductAdapter;
+import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 
 public class FragProducts extends Fragment implements IListenItem {
@@ -26,20 +27,17 @@ public class FragProducts extends Fragment implements IListenItem {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_products, container, false);
 
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product("3252212910067", 1, 1, 1, 1970));
-        products.add(new Product("3116430210371", 2, 2, 2, 1970));
-        products.add(new Product("3252212910067", 3, 3, 3, 1970));
-        products.add(new Product("3116430210371", 4, 4, 4, 1970));
+        List<Product> products = Database.getProducts().getAll();
 
         ProductAdapter adapter = new ProductAdapter(getContext(), products);
-
         ListView productListView = view.findViewById(R.id.lst_product);
 
         productListView.setAdapter(adapter);
         productListView.setTextFilterEnabled(true);
 
         adapter.addListener(this);
+
+
 
         return view;
     }

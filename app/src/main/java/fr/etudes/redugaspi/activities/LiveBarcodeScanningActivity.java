@@ -43,6 +43,8 @@ import fr.etudes.redugaspi.camera.CameraSourcePreview;
 import fr.etudes.redugaspi.camera.GraphicOverlay;
 import fr.etudes.redugaspi.camera.WorkflowModel;
 import fr.etudes.redugaspi.camera.WorkflowModel.WorkflowState;
+import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.models.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -212,7 +214,8 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
             ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
             barcodeFieldList.add(new BarcodeField("Raw Value", barcode.getRawValue()));
             BarcodeResultFragment.show(getSupportFragmentManager(), barcodeFieldList);
-            Toast.makeText(LiveBarcodeScanningActivity.this,  barcode.getRawValue(), Toast.LENGTH_LONG).show();
+            Toast.makeText(LiveBarcodeScanningActivity.this,  barcode.getRawValue(), Toast.LENGTH_SHORT).show();
+            Database.getProducts().add(LiveBarcodeScanningActivity.this, new Product(barcode.getRawValue(), 1, 10, 5, 2019));
           }
         });
   }

@@ -3,7 +3,7 @@ package fr.etudes.redugaspi.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.services.DownloadManager;
 
 public class ProductAdapter extends BaseAdapter {
@@ -53,21 +52,22 @@ public class ProductAdapter extends BaseAdapter {
 
         Product product = (Product) listView.get(position);
 
-        JSONObject json = DownloadManager.getProductData(parent.getContext(), product.getBarCode());
+        DownloadManager.getProductData(parent.getContext(), product.getBarCode());
 
-        try {
-            name.setText(json.getJSONObject("product").getString("product_name"));
-            Bitmap bitmap = DownloadManager.getImage(parent.getContext(), product.getBarCode());
-            image.setImageBitmap(bitmap);
-        } catch (JSONException e) {
-            Log.e("ERROR", e.getMessage());
-        }
-        name.setTag(position);
+        ProductName productName = Database.getNames().getFirst(x->x.getBarcode().equals(product.getBarCode()));
+        if (productName != null)
+            name.setText(productName.getName());
 
-        quantity.setText("x"+product.getQuantity());
-        quantity.setTag(position);
+        Bitmap bitmap = DownloadManager.getImage(parent.getContext(), product.getBarCode());
+        image.setImageBitmap(bitmap);
+
+
+        quantity.setText(String.format("x%s", product.getQuantity()));
 
         date.setText(product.getDate());
+
+        name.setTag(position);
+        quantity.setTag(position);
         date.setTag(position);
 
         return layoutItem;

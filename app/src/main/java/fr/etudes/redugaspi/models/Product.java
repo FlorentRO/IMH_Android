@@ -1,6 +1,17 @@
 package fr.etudes.redugaspi.models;
 
-public class Product {
+import android.app.AlarmManager;
+
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
+
+public class Product implements Serializable {
 
     private String barCode;
     private int day;
@@ -45,4 +56,13 @@ public class Product {
         return day + " / " + month + " / " + year;
     }
 
+    public long getDateMillis() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = dateFormat.parse(String.format("%s/%s/%s", day, month, year));
+            return date.getTime();
+        } catch (ParseException e) {
+            return 0;
+        }
+    }
 }

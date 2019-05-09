@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,17 +17,26 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.models.ProductName;
+
 public class DownloadManager {
 
     public static JSONObject getProductData(Context context, String barcode) {
         JSONObject json = null;
         try {
              json = getProductDataFromFile(context, barcode);
-             Log.e("ERROR", "loaded json from cache: " + barcode);
         } catch (Exception e) {
             json = getProductDataFromInternet(context, barcode);
-            Log.e("ERROR", "loaded json from internet: " + barcode);
         }
+
+        try {
+            if (Database.getNames().getFirst(x->x.getBarcode().equals(barcode))==null) {
+                String name = json.getJSONObject("product").getString("product_name");
+                Database.getNames().add(context, new ProductName(barcode, name));
+            }
+        } catch (JSONException ignored) {}
+
         return json;
     }
 
@@ -64,7 +74,7 @@ public class DownloadManager {
     }
 
     private static JSONObject getProductDataFromInternet(Context context, String barcode) {
-        String url = "http://fr.openfoodfacts.org/api/v0/produit/" + barcode + ".json";
+        String url = "https://fr.openfoodfacts.org/api/v0/produit/" + barcode + ".json";
         String data = download(url);
         try {
             if (data != null) {

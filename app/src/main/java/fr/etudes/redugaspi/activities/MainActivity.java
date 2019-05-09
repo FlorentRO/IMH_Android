@@ -1,33 +1,32 @@
 package fr.etudes.redugaspi.activities;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
 import android.os.StrictMode;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.Window;
+import android.util.Log;
+import android.util.Pair;
+import android.util.TimeUtils;
 import android.widget.Button;
-import android.widget.TimePicker;
-import android.widget.Toast;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalField;
+import java.util.Calendar;
+import java.util.Date;
 
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.services.NotificationService;
+import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductName;
+import fr.etudes.redugaspi.services.CustomNotificationHelper;
+import fr.etudes.redugaspi.services.DailyNotification;
+import fr.etudes.redugaspi.services.WeeklyNotification;
 
-import static android.app.AlarmManager.RTC;
 import fr.etudes.redugaspi.settings.Utils;
 
 
@@ -35,24 +34,32 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Database.LoadAll(this);
+        MOCK_DATABASE();
+        setupNotifications();
 
         setContentView(R.layout.activity_main);
         Button valid = findViewById(R.id.connect);
         valid.setOnClickListener(v -> {
+
             Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
             startActivity(intent);
 
         });
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+    }
 
-//will fire in 60 seconds
-        long when = System.currentTimeMillis() + 5000L;
+    private void setupNotifications() {
+        Calendar cal=Calendar.getInstance();
+        cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK))+7); // sunday
+        cal.set(Calendar.HOUR_OF_DAY, 17);
+        cal.set(Calendar.MINUTE, 0);
+        long start = cal.getTimeInMillis();
+        Log.e("ERROR", ""+(start-System.currentTimeMillis()));
+        CustomNotificationHelper.schedule(this, DailyNotification.class, start);
+        CustomNotificationHelper.schedule(this, WeeklyNotification.class, start);
 
-        AlarmManager am = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent i = new Intent(this, NotificationService.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, i, 1);
-        am.set(AlarmManager.RTC_WAKEUP, when, pendingIntent);
     }
 
     @Override
@@ -81,6 +88,17 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onDestroy() {
+        Database.SaveAll(this);
         super.onDestroy();
+    }
+
+    private void MOCK_DATABASE() /* TODO remove, this is just a mock */ {
+//        Database.ClearAll(this);
+
+        //Database.getNames().add(this, new ProductName("3116430210371", "biscuit"));
+        //Database.getProducts().add(this, new Product("3116430210371", 1, 10,5,2019));
+        //Database.getHistory().add(this, new Product("3116430210371", 1, 6,5,2019));
+
+//        Database.SaveAll(this);
     }
 }
