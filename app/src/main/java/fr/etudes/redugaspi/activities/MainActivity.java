@@ -28,6 +28,7 @@ import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.services.NotificationService;
 
 import static android.app.AlarmManager.RTC;
+import fr.etudes.redugaspi.settings.Utils;
 
 
 public class MainActivity extends AppCompatActivity{

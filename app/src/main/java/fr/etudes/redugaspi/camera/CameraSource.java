@@ -28,7 +28,7 @@ import android.view.WindowManager;
 
 import com.google.android.gms.common.images.Size;
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.activities.Utils;
+import fr.etudes.redugaspi.settings.Utils;
 import fr.etudes.redugaspi.settings.PreferenceUtils;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 

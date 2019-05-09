@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.android.gms.common.images.Size;
-import fr.etudes.redugaspi.activities.Utils;
+import fr.etudes.redugaspi.settings.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

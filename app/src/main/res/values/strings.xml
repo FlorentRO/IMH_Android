@@ -12,6 +12,10 @@
     <string name="add">Ajouter</string>
     <string name="search">Recherche &#8230;</string>
 
+    <string name="navigation_drawer_open">Ouvrir navigation</string>
+    <string name="navigation_drawer_close">Fermer navigation</string>
+
+
     <string name="mode_odt_live_title">Object Detection: Live Camera</string>
     <string name="mode_odt_live_subtitle">A device’s live camera can be used to detect objects in an environment.</string>
     <string name="mode_odt_static_title">Object Detection: Static Image</string>

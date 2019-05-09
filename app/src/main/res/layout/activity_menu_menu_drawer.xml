@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <item android:title="Fonctionnalités">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_menu_produit"
+                    android:title="Mes Produits" />
+                <item
+                    android:id="@+id/activity_menu_historique"
+                    android:title="Historique" />
+                <item
+                    android:id="@+id/activity_menu_courses"
+                    android:title="Liste de Courses" />
+                <item
+                    android:id="@+id/activity_menu_annonces"
+                    android:title="Annonces" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Espace Personnel">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_menu_amis"
+                    android:title="Mes amis" />
+                <item
+                    android:id="@+id/activity_menu_compte"
+                    android:title="Mon compte" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

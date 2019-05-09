@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.etudes.redugaspi.activities;
+package fr.etudes.redugaspi.settings;
 
 import android.app.Activity;
 import android.content.ContentResolver;
