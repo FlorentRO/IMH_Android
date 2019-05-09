@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.settings.Utils;
 
 
 public class MainActivity extends AppCompatActivity{

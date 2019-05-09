@@ -25,7 +25,7 @@ import android.widget.FrameLayout;
 
 import com.google.android.gms.common.images.Size;
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.activities.Utils;
+import fr.etudes.redugaspi.settings.Utils;
 
 import java.io.IOException;
 

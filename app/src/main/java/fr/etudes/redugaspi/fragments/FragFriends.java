@@ -25,6 +25,11 @@ import fr.etudes.redugaspi.models.User;
 
 public class FragFriends extends Fragment implements IListenItem {
     List<User> users = new ArrayList<User>();
+
+    public static FragFriends newInstance() {
+        return (new FragFriends());
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);

@@ -17,6 +17,11 @@ import fr.etudes.redugaspi.models.Product;
 
 public class FragProducts extends Fragment implements IListenItem {
 
+    public static FragProducts newInstance() {
+        return (new FragProducts());
+    }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_products, container, false);
