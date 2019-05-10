@@ -2,9 +2,9 @@ package fr.etudes.redugaspi.models;
 
 public class User {
     private String name;
-    private Number num;
+    private String num;
 
-    public User(String name, Number num) {
+    public User(String name, String num) {
         this.name = name;
         this.num = num;
     }
@@ -16,10 +16,10 @@ public class User {
         this.name = name;
     }
 
-    public Number getNum() {
+    public String getNum() {
         return num;
     }
-    public void setNum(Number num) {
+    public void setNum(String num) {
         this.num = num;
     }
 }

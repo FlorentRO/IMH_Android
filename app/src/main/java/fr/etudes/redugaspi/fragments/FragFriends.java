@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class FragFriends extends Fragment implements IListenItem {
                     while (pCur.moveToNext()) {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        users.add(new User(name,Integer.parseInt(phoneNo)));
+                        users.add(new User(name,phoneNo));
                     }
                     pCur.close();
                 }
@@ -89,13 +90,20 @@ public class FragFriends extends Fragment implements IListenItem {
         builder.setTitle("INFORMATION - "+name);
         builder.setMessage("Que voulez vous faire ?");
         builder.setNeutralButton("Rien", null);
+        String getNumber = "0";
+        for(User d : users){
+            if(d.getPseudo().equals(name)){
+                getNumber = d.getNum();
+            }
+        }
+        String finalGetNumber = getNumber;
         builder.setPositiveButton("Appeler",
                 (dialog, which) -> {
-                    Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "0606060606", null));
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", finalGetNumber, null));
                     startActivity(callIntent);
                 });
         builder.setNegativeButton("SMS",
-                (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "0606060606", null))));
+                (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null))));
         builder.show();
     }
 
