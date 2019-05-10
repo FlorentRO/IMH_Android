@@ -19,12 +19,14 @@
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         app:layout_constraintBottom_toBottomOf="@+id/prd_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/prd_name"
         android:layout_width="257dp"
         android:layout_height="62dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -33,23 +35,28 @@
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         app:layout_constraintBottom_toBottomOf="@+id/prd_image"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="64dp" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="66dp"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/prd_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/prd_quantity"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginEnd="56dp"
         android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/prd_date"
         app:layout_constraintEnd_toStartOf="@+id/prd_date"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>
