@@ -33,7 +33,7 @@ public class DownloadManager {
         try {
             if (Database.getNames().getFirst(x->x.getBarcode().equals(barcode))==null) {
                 String name = json.getJSONObject("product").getString("product_name");
-                Database.getNames().add(context, new ProductName(barcode, name));
+                Database.getNames().add(new ProductName(barcode, name));
             }
         } catch (JSONException ignored) {}
 

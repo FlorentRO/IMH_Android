@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Database.LoadAll(this);
-        MOCK_DATABASE();
+        Database.setContextAll(this);
+        //MOCK_DATABASE();
         setupNotifications();
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
@@ -82,17 +82,41 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onDestroy() {
-        Database.SaveAll(this);
         super.onDestroy();
     }
 
     private void MOCK_DATABASE() /* TODO remove, this is just a mock */ {
-//        Database.ClearAll(this);
-
-        //Database.getNames().add(this, new ProductName("3116430210371", "biscuit"));
-        //Database.getProducts().add(this, new Product("3116430210371", 1, 10,5,2019));
-        //Database.getHistory().add(this, new Product("3116430210371", 1, 6,5,2019));
-
-//        Database.SaveAll(this);
+        Database.getNames().add(new ProductName("4002359009471", "miracoli"));
+        Database.getNames().add(new ProductName("3564700332856", "fromage"));
+        Database.getNames().add(new ProductName("26017969", "escalope"));
+        Database.getNames().add(new ProductName("3250390000853", "haricot"));
+        Database.getProducts().add(new Product("26017969", 1, 10,6,2019));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,7,2018));
+        Database.getProducts().add(new Product("4002359009471", 1, 10,5,2019));
+        Database.getProducts().add(new Product("26017969", 1, 10,5,2019));
+        Database.getProducts().add(new Product("4002359009471", 1, 10,5,2020));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,5,2020));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,4,2019));
+        Database.getProducts().add(new Product("26017969", 1, 10,5,2019));
+        Database.getProducts().add(new Product("4002359009471", 1, 10,5,2015));
+        Database.getProducts().add(new Product("4002359009471", 1, 10,5,2019));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,5,2015));
+        Database.getProducts().add(new Product("4002359009471", 1, 10,5,2019));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,5,2019));
+        Database.getProducts().add(new Product("3250390000853", 1, 10,1,2019));
+        Database.getProducts().add(new Product("3564700332856", 1, 10,5,2019));
+        Database.getHistory().add(new Product("26017969", 1, 6,5,2019));
+        Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
+        Database.getHistory().add(new Product("4002359009471", 1, 8,6,2020));
+        Database.getHistory().add(new Product("26017969", 1, 6,5,2019));
+        Database.getHistory().add(new Product("4002359009471", 1, 6,5,2019));
+        Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
+        Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
+        Database.getHistory().add(new Product("26017969", 1, 6,5,2019));
+        Database.getHistory().add(new Product("4002359009471", 1, 6,5,2019));
+        Database.getHistory().add(new Product("4002359009471", 1, 6,5,2019));
+        Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
+        Database.getHistory().add(new Product("4002359009471", 1, 6,5,2019));
+        Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
     }
 }

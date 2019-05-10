@@ -31,7 +31,9 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return listView.size();
+        if (listView!=null)
+            return listView.size();
+        return 0;
     }
 
     public Object getItem(int position) {

@@ -65,4 +65,37 @@ public class Product implements Serializable {
             return 0;
         }
     }
+
+    public static int compareDates(Product p1, Product p2) {
+        long diff = 365 * AlarmManager.INTERVAL_DAY * (p1.getYear() - p2.getYear()) +
+                30 * AlarmManager.INTERVAL_DAY * (p1.getMonth() - p2.getMonth()) +
+                AlarmManager.INTERVAL_DAY * (p1.getDay() - p2.getDay());
+        return diff>0 ? 1 : diff<0 ? -1 : 0;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setBarcode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj instanceof Product) {
+                return getDate().equals(((Product) obj).getDate()) && getBarCode().equals(((Product) obj).getBarCode());
+            }
+        }
+        return false;
+    }
 }

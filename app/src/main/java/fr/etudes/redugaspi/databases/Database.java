@@ -1,16 +1,7 @@
 package fr.etudes.redugaspi.databases;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
-import android.widget.ArrayAdapter;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,16 +13,23 @@ import fr.etudes.redugaspi.models.ProductName;
 
 public class Database<T> {
     private final List<T> data = new ArrayList<>();
-    private final String filename;
+    private final String basename;
+    private String filename;
 
     private static Database<Product> products = new Database<>("products.dat");;
     private static Database<ProductName> names = new Database<>("names.dat");;
     private static Database<Product> history = new Database<>("history.dat");;
 
-    public static void LoadAll(Context context) {
-        products.load(context);
-        names.load(context);
-        history.load(context);
+    public static void setContextAll(Context context) {
+        products.setContext(context);
+        names.setContext(context);
+        history.setContext(context);
+    }
+
+    public static void LoadAll() {
+        products.load();
+        names.load();
+        history.load();
     }
 
     public static Database<Product> getProducts() {
@@ -46,10 +44,10 @@ public class Database<T> {
         return history;
     }
 
-    public static void SaveAll(Context context) {
-        products.save(context);
-        names.save(context);
-        history.save(context);
+    public static void SaveAll() {
+        products.save();
+        names.save();
+        history.save();
     }
 
     public static void ClearAll(Context context) {
@@ -59,25 +57,30 @@ public class Database<T> {
     }
 
     private Database(String filename) {
-        this.filename = filename;
+        this.basename = filename;
+    }
+
+    public void setContext(Context context) {
+        filename = context.getCacheDir().getAbsolutePath()+"/"+basename;
     }
 
     public void clear(Context context) {
         SerializableManager.removeSerializable(context, filename);
     }
 
-    public void load(Context context) {
+    public void load() {
         data.clear();
-        T[] array = (T[]) SerializableManager.readSerializable( context, filename);
+        T[] array = (T[]) SerializableManager.readSerializable(filename);
         if (array != null)
             data.addAll(Arrays.asList(array));
     }
 
-    public void save(Context context) {
-        SerializableManager.saveSerializable(context, data.toArray(), filename);
+    public void save() {
+        SerializableManager.saveSerializable( data.toArray(), filename);
     }
 
     public List<T> getAll() {
+        load();
         return data;
     }
 
@@ -88,11 +91,18 @@ public class Database<T> {
     }
 
     public List<T> get(Predicate<? super T> filter) {
-        return data.stream().filter(filter).collect(Collectors.toList());
+        return getAll().stream().filter(filter).collect(Collectors.toList());
     }
 
-    public void add(Context context, T object) {
+    public void add(T object) {
+        load();
         data.add(object);
-        save(context);
+        save();
+    }
+
+    public void remove(T object) {
+        load();
+        data.remove(object);
+        save();
     }
 }

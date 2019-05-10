@@ -20,6 +20,8 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 
@@ -48,6 +50,9 @@ import fr.etudes.redugaspi.models.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /** Demonstrates the barcode scanning workflow using camera preview. */
 public class LiveBarcodeScanningActivity extends AppCompatActivity implements OnClickListener {
@@ -76,14 +81,26 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
 
     promptChip = findViewById(R.id.bottom_prompt_chip);
     promptChipAnimator =
-        (AnimatorSet) AnimatorInflater.loadAnimator(this, R.anim.bottom_prompt_chip_enter);
+            (AnimatorSet) AnimatorInflater.loadAnimator(this, R.anim.bottom_prompt_chip_enter);
     promptChipAnimator.setTarget(promptChip);
 
     findViewById(R.id.close_button).setOnClickListener(this);
     flashButton = findViewById(R.id.flash_button);
     flashButton.setOnClickListener(this);
 
-    setUpWorkflowModel();
+    int day, month, year;
+    Intent intent = getIntent();
+    Calendar c = Calendar.getInstance();
+    if (intent != null) {
+        day = intent.getIntExtra("day", c.get(Calendar.DATE));
+        month = intent.getIntExtra("month", c.get(Calendar.MONTH));
+        year = intent.getIntExtra("year", c.get(Calendar.YEAR));
+    } else {
+      day = c.get(Calendar.DATE);
+      month = c.get(Calendar.MONTH);
+      year = c.get(Calendar.YEAR);
+    }
+    setUpWorkflowModel(day, month, year);
   }
 
   @Override
@@ -157,66 +174,70 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
     }
   }
 
-  private void setUpWorkflowModel() {
+  private void setUpWorkflowModel(int day, int month, int year) {
     workflowModel = ViewModelProviders.of(this).get(WorkflowModel.class);
 
     // Observes the workflow state changes, if happens, update the overlay view indicators and
     // camera preview state.
     workflowModel.workflowState.observe(
-        this,
-        workflowState -> {
-          if (workflowState == null || Objects.equal(currentWorkflowState, workflowState)) {
-            return;
-          }
+            this,
+            workflowState -> {
+              if (workflowState == null || Objects.equal(currentWorkflowState, workflowState)) {
+                return;
+              }
 
-          currentWorkflowState = workflowState;
-          Log.d(TAG, "Current workflow state: " + currentWorkflowState.name());
+              currentWorkflowState = workflowState;
+              Log.d(TAG, "Current workflow state: " + currentWorkflowState.name());
 
-          boolean wasPromptChipGone = (promptChip.getVisibility() == View.GONE);
+              boolean wasPromptChipGone = (promptChip.getVisibility() == View.GONE);
 
-          switch (workflowState) {
-            case DETECTING:
-              promptChip.setVisibility(View.VISIBLE);
-              promptChip.setText(R.string.prompt_point_at_a_barcode);
-              startCameraPreview();
-              break;
-            case CONFIRMING:
-              promptChip.setVisibility(View.VISIBLE);
-              promptChip.setText(R.string.prompt_move_camera_closer);
-              startCameraPreview();
-              break;
-            case SEARCHING:
-              promptChip.setVisibility(View.VISIBLE);
-              promptChip.setText(R.string.prompt_searching);
-              stopCameraPreview();
-              break;
-            case DETECTED:
-            case SEARCHED:
-              promptChip.setVisibility(View.GONE);
-              stopCameraPreview();
-              break;
-            default:
-              promptChip.setVisibility(View.GONE);
-              break;
-          }
+              switch (workflowState) {
+                case DETECTING:
+                  promptChip.setVisibility(View.VISIBLE);
+                  promptChip.setText(R.string.prompt_point_at_a_barcode);
+                  startCameraPreview();
+                  break;
+                case CONFIRMING:
+                  promptChip.setVisibility(View.VISIBLE);
+                  promptChip.setText(R.string.prompt_move_camera_closer);
+                  startCameraPreview();
+                  break;
+                case SEARCHING:
+                  promptChip.setVisibility(View.VISIBLE);
+                  promptChip.setText(R.string.prompt_searching);
+                  stopCameraPreview();
+                  break;
+                case DETECTED:
+                case SEARCHED:
+                  promptChip.setVisibility(View.GONE);
+                  stopCameraPreview();
+                  break;
+                default:
+                  promptChip.setVisibility(View.GONE);
+                  break;
+              }
 
-          boolean shouldPlayPromptChipEnteringAnimation =
-              wasPromptChipGone && (promptChip.getVisibility() == View.VISIBLE);
-          if (shouldPlayPromptChipEnteringAnimation && !promptChipAnimator.isRunning()) {
-            promptChipAnimator.start();
-          }
-        });
-
+              boolean shouldPlayPromptChipEnteringAnimation =
+                      wasPromptChipGone && (promptChip.getVisibility() == View.VISIBLE);
+              if (shouldPlayPromptChipEnteringAnimation && !promptChipAnimator.isRunning()) {
+                promptChipAnimator.start();
+              }
+            });
     workflowModel.detectedBarcode.observe(
-        this,
-        barcode -> {
-          if (barcode != null) {
-            ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
-            barcodeFieldList.add(new BarcodeField("Raw Value", barcode.getRawValue()));
-            BarcodeResultFragment.show(getSupportFragmentManager(), barcodeFieldList);
-            Toast.makeText(LiveBarcodeScanningActivity.this,  barcode.getRawValue(), Toast.LENGTH_SHORT).show();
-            Database.getProducts().add(LiveBarcodeScanningActivity.this, new Product(barcode.getRawValue(), 1, 10, 5, 2019));
-          }
-        });
+            this,
+            barcode -> {
+              if (barcode != null) {
+                Product newProduct = new Product(barcode.getRawValue(), 1, day, month, year);
+                Product match = Database.getProducts().getFirst(x->x.equals(newProduct));
+                if (match != null) {
+                  newProduct.setQuantity(match.getQuantity()+1);
+                  Database.getProducts().remove(match);
+                  Database.getProducts().add(newProduct);
+                } else {
+                  Database.getProducts().add(newProduct);
+                }
+                finish();
+              }
+            });
   }
 }

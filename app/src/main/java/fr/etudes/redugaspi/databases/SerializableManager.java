@@ -11,9 +11,9 @@ import java.io.Serializable;
 
 public class SerializableManager {
 
-    public static <T extends Serializable> void saveSerializable(Context context, T objectToSave, String fileName) {
+    public static <T extends Serializable> void saveSerializable(T objectToSave, String fileName) {
         try {
-            FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
             objectOutputStream.writeObject(objectToSave);
@@ -25,11 +25,11 @@ public class SerializableManager {
         }
     }
 
-    public static<T extends Serializable> T readSerializable(Context context, String fileName) {
+    public static<T extends Serializable> T readSerializable(String fileName) {
         T objectToReturn = null;
 
         try {
-            FileInputStream fileInputStream = context.openFileInput(fileName);
+            FileInputStream fileInputStream = new FileInputStream(fileName);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             objectToReturn = (T) objectInputStream.readObject();
 
