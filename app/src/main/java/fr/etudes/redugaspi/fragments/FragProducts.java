@@ -111,7 +111,7 @@ public class FragProducts extends Fragment implements IListenItem {
             Intent intent = new Intent(context, LiveBarcodeScanningActivity.class);
             Bundle extra = new Bundle();
             extra.putInt("day", picker.getDayOfMonth());
-            extra.putInt("month", picker.getMonth());
+            extra.putInt("month", picker.getMonth()+1);
             extra.putInt("year", picker.getYear());
             intent.putExtras(extra);
             startActivity(intent);
