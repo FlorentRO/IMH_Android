@@ -74,7 +74,10 @@ public class FragFriends extends Fragment implements IListenItem {
                     while (pCur.moveToNext()) {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        users.add(new User(name,phoneNo));
+
+                        if (!haveDup(name,phoneNo)){
+                            users.add(new User(name,phoneNo));
+                        }
                     }
                     pCur.close();
                 }
@@ -84,6 +87,7 @@ public class FragFriends extends Fragment implements IListenItem {
             cur.close();
         }
     }
+
     @Override
     public void onClickName(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -107,4 +111,14 @@ public class FragFriends extends Fragment implements IListenItem {
         builder.show();
     }
 
+    public boolean haveDup(String name, String phoneNo) {
+        for (User d : users) {
+            if (d.getPseudo().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
+
