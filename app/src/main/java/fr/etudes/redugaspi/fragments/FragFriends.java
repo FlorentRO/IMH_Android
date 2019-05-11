@@ -37,7 +37,6 @@ public class FragFriends extends Fragment implements IListenItem {
 
         //Liste ami dans la liste
         FriendAdapter friendAdapter= new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
-        EditText searchText = view.findViewById(R.id.txt_search_friend);
 
         ListView friendsListView = view.findViewById(R.id.lst_friends);
         friendsListView.setAdapter(friendAdapter);
@@ -49,16 +48,10 @@ public class FragFriends extends Fragment implements IListenItem {
         msgListView.setAdapter(arrayAdapter);
 
         int size=users.size();
-        if(size>=1) {String test1 = "Votre ami "+users.get(0).getPseudo()+" a posté un commentaire sur l'annonce : Gâteau au chocolat";msgList.add(test1);}
-        if(size>=2) {String test2 = "Votre ami "+users.get(1).getPseudo()+" a posté un commentaire sur l'annonce : Gâteau au chocolat";msgList.add(test2);}
-        if(size>=2) {String test3 = "Votre ami "+users.get(1).getPseudo()+" a acheté le produit : Haricot vert";msgList.add(test3);}
-        if(size>=3) {String test3 = "Votre ami "+users.get(2).getPseudo()+" a acheté le produit : Haricot bleu";msgList.add(test3);}
-
-        searchText.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
-            public void afterTextChanged(Editable arg0) { }
-        });
+        if(size>=1) {String test1 = users.get(0).getPseudo()+" a partagé l'annonce : Gâteau au chocolat";msgList.add(test1);}
+        if(size>=2) {String test2 = users.get(1).getPseudo()+" a commenté l'annonce : Gâteau au chocolat";msgList.add(test2);}
+        if(size>=2) {String test3 = users.get(1).getPseudo()+" a acheté le produit : Haricot vert";msgList.add(test3);}
+        if(size>=3) {String test3 = users.get(2).getPseudo()+" a acheté le produit : Haricot bleu";msgList.add(test3);}
         return view;
     }
 
