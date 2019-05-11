@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -26,9 +27,8 @@ import fr.etudes.redugaspi.models.User;
 
 public class FragFriends extends Fragment implements IListenItem {
     List<User> users = new ArrayList<User>();
-    public static FragFriends newInstance() {
-        return (new FragFriends());
-    }
+    List<String> msgList = new ArrayList<String>();
+    public static FragFriends newInstance() { return (new FragFriends()); }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,11 +38,21 @@ public class FragFriends extends Fragment implements IListenItem {
         //Liste ami dans la liste
         FriendAdapter friendAdapter= new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
         EditText searchText = view.findViewById(R.id.txt_search_friend);
+
         ListView friendsListView = view.findViewById(R.id.lst_friends);
         friendsListView.setAdapter(friendAdapter);
         friendsListView.setTextFilterEnabled(true);
         friendAdapter.addListener(this);
 
+        ListView msgListView = view.findViewById(R.id.lst_msg);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, msgList );
+        msgListView.setAdapter(arrayAdapter);
+
+        int size=users.size();
+        if(size>=1) {String test1 = "Votre ami "+users.get(0).getPseudo()+" a posté un commentaire sur l'annonce : Gâteau au chocolat";msgList.add(test1);}
+        if(size>=2) {String test2 = "Votre ami "+users.get(1).getPseudo()+" a posté un commentaire sur l'annonce : Gâteau au chocolat";msgList.add(test2);}
+        if(size>=2) {String test3 = "Votre ami "+users.get(1).getPseudo()+" a acheté le produit : Haricot vert";msgList.add(test3);}
+        if(size>=3) {String test3 = "Votre ami "+users.get(2).getPseudo()+" a acheté le produit : Haricot bleu";msgList.add(test3);}
 
         searchText.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
