@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 
 public class Database<T> {
@@ -16,20 +17,23 @@ public class Database<T> {
     private final String basename;
     private String filename;
 
-    private static Database<Product> products = new Database<>("products.dat");;
-    private static Database<ProductName> names = new Database<>("names.dat");;
-    private static Database<Product> history = new Database<>("history.dat");;
+    private static Database<Product> products = new Database<>("products.dat");
+    private static Database<ProductName> names = new Database<>("names.dat");
+    private static Database<Product> history = new Database<>("history.dat");
+    private static Database<ProductCourses> courses = new Database<>("courses.dat");
 
     public static void setContextAll(Context context) {
         products.setContext(context);
         names.setContext(context);
         history.setContext(context);
+        courses.setContext(context);
     }
 
     public static void LoadAll() {
         products.load();
         names.load();
         history.load();
+        courses.load();
     }
 
     public static Database<Product> getProducts() {
@@ -44,16 +48,22 @@ public class Database<T> {
         return history;
     }
 
+    public static Database<ProductCourses> getCourses() {
+        return courses;
+    }
+
     public static void SaveAll() {
         products.save();
         names.save();
         history.save();
+        courses.save();
     }
 
     public static void ClearAll(Context context) {
         products.clear(context);
         names.clear(context);
         history.clear(context);
+        courses.clear(context);
     }
 
     private Database(String filename) {

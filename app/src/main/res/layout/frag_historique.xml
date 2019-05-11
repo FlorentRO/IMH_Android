@@ -8,28 +8,20 @@
     android:background="#FFFFFF"
     tools:context=".activities.ManagementActivity">
 
-    <Button
-        android:id="@+id/AjoutProduit"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="barcodeReco"
-        android:text="@string/add"
-        app:layout_constraintBottom_toBottomOf="@+id/prd_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/prd_search"
-        android:layout_width="275dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/search"
+        android:inputType="textFilter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:inputType="textFilter" />
+        android:importantForAutofill="no"
+        tools:targetApi="o" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

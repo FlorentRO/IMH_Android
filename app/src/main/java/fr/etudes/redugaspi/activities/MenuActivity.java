@@ -58,8 +58,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.activity_menu_amis:
                 break;
-            case R.id.activity_menu_compte:
-                break;
             default:
                 break;
         }

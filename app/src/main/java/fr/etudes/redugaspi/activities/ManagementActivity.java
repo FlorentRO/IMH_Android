@@ -1,24 +1,19 @@
 package fr.etudes.redugaspi.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.fragments.FragAdverts;
-import fr.etudes.redugaspi.fragments.FragCompte;
 import fr.etudes.redugaspi.fragments.FragCourses;
 import fr.etudes.redugaspi.fragments.FragFriends;
 import fr.etudes.redugaspi.fragments.FragHistorique;
@@ -32,14 +27,12 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
     private Fragment Fragcourses;
     private Fragment FragAds;
     private Fragment FragAmis;
-    private Fragment Fragcompte;
 
     private static final int FRAGMENT_PRODUCT = 0;
     private static final int FRAGMENT_HISTORIQUE = 1;
     private static final int FRAGMENT_COURSES = 2;
     private static final int FRAGMENT_ADS = 3;
     private static final int FRAGMENT_FRIENDS = 4;
-    private static final int FRAGMENT_COMPTE = 5;
 
 
 
@@ -79,13 +72,13 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
     // CONFIGURATION
     // ---------------------
 
-    // 1 - Configure Toolbar
+    // Configure Toolbar
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
     }
 
-    // 2 - Configure Drawer Layout
+    // Configure Drawer Layout
     private void configureDrawerLayout(){
         this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -93,12 +86,12 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
         toggle.syncState();
     }
 
-    // 3 - Configure NavigationView
+    // Configure NavigationView
     private void configureNavigationView(){
         this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
+    // call barcode scanner camera
     public void barcodeReco(View view) {
         Intent intent = new Intent(getApplicationContext(), LiveBarcodeScanningActivity.class);
         startActivity(intent);
@@ -109,7 +102,7 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
 
         int id = item.getItemId();
 
-        // 6 - Show fragment after user clicked on a menu item
+        // Show fragment after user clicked on a menu item
         switch (id){
             case R.id.activity_menu_produit:
                 this.showFragment(FRAGMENT_PRODUCT);
@@ -126,9 +119,6 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
             case R.id.activity_menu_amis:
                 this.showFragment(FRAGMENT_FRIENDS);
                 break;
-            case R.id.activity_menu_compte:
-                this.showFragment(FRAGMENT_COMPTE);
-                break;
             default:
                 break;
         }
@@ -142,13 +132,13 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
     // FRAGMENTS
     // ---------------------
 
-    // 5 - Show fragment according an Identifier
+    // Show fragment according an Identifier
     private void showFirstFragment(){
         Fragment visibleFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
         if (visibleFragment == null){
-            // 1.1 - Show News Fragment
+            // Show News Fragment
             this.showFragment(FRAGMENT_PRODUCT);
-            // 1.2 - Mark as selected the menu item corresponding to NewsFragment
+            // Mark as selected the menu item corresponding to NewsFragment
             this.navigationView.getMenu().getItem(0).setChecked(true);
         }
     }
@@ -170,9 +160,6 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
             case FRAGMENT_FRIENDS:
                 this.showFriendsFragment();
                 break;
-            case FRAGMENT_COMPTE :
-                this.showCompteFragment();
-                break;
             default:
                 break;
         }
@@ -180,7 +167,7 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
 
     // ---
 
-    // 4 - Create each fragment page and show it
+    // Create each fragment page and show it
 
     private void showProductFragment(){
         if (this.FragProduits == null) this.FragProduits = FragProducts.newInstance();
@@ -203,15 +190,11 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
         if (this.FragAmis == null) this.FragAmis = FragFriends.newInstance();
         this.startTransactionFragment(this.FragAmis);
     }
-    private void showCompteFragment(){
-        if (this.Fragcompte == null) this.Fragcompte = FragCompte.newInstance();
-        this.startTransactionFragment(this.Fragcompte);
-    }
 
 
     // ---
 
-    // 3 - Generic method that will replace and show a fragment inside the MainActivity Frame Layout
+    // Generic method that will replace and show a fragment inside the MainActivity Frame Layout
     private void startTransactionFragment(Fragment fragment){
         if (!fragment.isVisible()){
             getSupportFragmentManager().beginTransaction()

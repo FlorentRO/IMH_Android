@@ -22,6 +22,7 @@ import java.util.Date;
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.services.CustomNotificationHelper;
 import fr.etudes.redugaspi.services.DailyNotification;
@@ -37,11 +38,7 @@ public class MainActivity extends AppCompatActivity{
         Database.setContextAll(this);
         //MOCK_DATABASE();
         setupNotifications();
-        setContentView(R.layout.activity_main);
-        Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
-        startActivity(intent);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
     }
 
     private void setupNotifications() {
@@ -59,6 +56,10 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
+        startActivity(intent);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
     }
 
@@ -118,5 +119,8 @@ public class MainActivity extends AppCompatActivity{
         Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
         Database.getHistory().add(new Product("4002359009471", 1, 6,5,2019));
         Database.getHistory().add(new Product("3564700332856", 1, 6,5,2019));
+        Database.getCourses().add(new ProductCourses("coca",6));
+        Database.getCourses().add(new ProductCourses("chocolat",1));
+        Database.getCourses().add(new ProductCourses("lait",3));
     }
 }

@@ -195,16 +195,19 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
                 case DETECTING:
                   promptChip.setVisibility(View.VISIBLE);
                   promptChip.setText(R.string.prompt_point_at_a_barcode);
+                  Toast.makeText(LiveBarcodeScanningActivity.this,  R.string.prompt_point_at_a_barcode, Toast.LENGTH_LONG).show();
                   startCameraPreview();
                   break;
                 case CONFIRMING:
                   promptChip.setVisibility(View.VISIBLE);
                   promptChip.setText(R.string.prompt_move_camera_closer);
+                  Toast.makeText(LiveBarcodeScanningActivity.this,  R.string.prompt_move_camera_closer, Toast.LENGTH_LONG).show();
                   startCameraPreview();
                   break;
                 case SEARCHING:
                   promptChip.setVisibility(View.VISIBLE);
                   promptChip.setText(R.string.prompt_searching);
+                  Toast.makeText(LiveBarcodeScanningActivity.this,  R.string.prompt_searching, Toast.LENGTH_LONG).show();
                   stopCameraPreview();
                   break;
                 case DETECTED:

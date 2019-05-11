@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -47,8 +48,7 @@ public class BarcodeResultFragment extends BottomSheetDialogFragment {
   private static final String TAG = "BarcodeResultFragment";
   private static final String ARG_BARCODE_FIELD_LIST = "arg_barcode_field_list";
 
-  public static void show(
-          FragmentManager fragmentManager, ArrayList<BarcodeField> barcodeFieldArrayList) {
+  public static void show(FragmentManager fragmentManager, ArrayList<BarcodeField> barcodeFieldArrayList) {
     BarcodeResultFragment barcodeResultFragment = new BarcodeResultFragment();
     Bundle bundle = new Bundle();
     bundle.putParcelableArrayList(ARG_BARCODE_FIELD_LIST, barcodeFieldArrayList);

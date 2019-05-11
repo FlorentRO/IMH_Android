@@ -24,15 +24,12 @@
         </menu>
     </item>
 
-    <item android:title="Espace Personnel">
+    <item android:title="Partage">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/activity_menu_amis"
                     android:title="Mes amis" />
-                <item
-                    android:id="@+id/activity_menu_compte"
-                    android:title="Mon compte" />
             </group>
         </menu>
     </item>

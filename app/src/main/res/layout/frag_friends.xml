@@ -10,15 +10,18 @@
 
     <EditText
         android:id="@+id/txt_search_friend"
-        android:layout_width="275dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/search"
+        android:importantForAutofill="no"
+        android:inputType="textFilter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:inputType="textFilter"
-        android:importantForAutofill="no" />
+        tools:targetApi="o" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

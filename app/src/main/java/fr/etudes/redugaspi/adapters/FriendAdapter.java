@@ -38,7 +38,7 @@ public class FriendAdapter extends BaseAdapter {
         ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.friend_row_layout, parent, false);
         TextView name = layoutItem.findViewById(R.id.prd_date);
 
-        name.setText(listView.get(position)+"");
+        name.setText(String.format("%s", listView.get(position)));
         Log.d("ADAPTER","position="+position);
         Log.d("ADAPTER","name="+listView.get(position));
 
@@ -46,7 +46,7 @@ public class FriendAdapter extends BaseAdapter {
 
         name.setOnClickListener(v -> {
             Integer position1 = (Integer)v.getTag();
-            listViewListen.onClickName(listView.get(position1)+"");
+            listViewListen.onClickName(listView.get(position1).toString());
         });
         return layoutItem;
     }
