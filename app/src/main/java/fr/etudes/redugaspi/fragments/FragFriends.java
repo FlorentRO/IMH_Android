@@ -40,7 +40,6 @@ public class FragFriends extends Fragment implements IListenItem {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);
 
         friendsListView = view.findViewById(R.id.lst_friends);
-        msgListView = view.findViewById(R.id.lst_msg);
         friendsListView.setTextFilterEnabled(true);
 
         return view;
@@ -53,8 +52,6 @@ public class FragFriends extends Fragment implements IListenItem {
         friendAdapter = new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
         friendsListView.setAdapter(friendAdapter);
         friendAdapter.addListener(this);
-
-        return view;
     }
 
     private void getContactList() {
