@@ -20,6 +20,7 @@ import fr.etudes.redugaspi.fragments.FragCourses;
 import fr.etudes.redugaspi.fragments.FragFriends;
 import fr.etudes.redugaspi.fragments.FragHistorique;
 import fr.etudes.redugaspi.fragments.FragProducts;
+import fr.etudes.redugaspi.settings.Utils;
 
 
 public class ManagementActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,7 +48,9 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        if (!Utils.allPermissionsGranted(getApplicationContext())) {
+            Utils.requestRuntimePermissions(ManagementActivity.this);
+        }
         // 6 - Configure all views
 
         this.configureToolBar();
