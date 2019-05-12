@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Objects;
+
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.fragments.FragAdverts;
 import fr.etudes.redugaspi.fragments.FragCourses;
@@ -76,6 +78,7 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
+
     }
 
     // Configure Drawer Layout
@@ -171,23 +174,28 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
 
     private void showProductFragment(){
         if (this.FragProduits == null) this.FragProduits = FragProducts.newInstance();
+        setTitle("Mes Produits");
         this.startTransactionFragment(this.FragProduits);
     }
     private void showHistoriqueFragment(){
         if (this.Fraghistorique == null) this.Fraghistorique = FragHistorique.newInstance();
+        setTitle("Historique");
         this.startTransactionFragment(this.Fraghistorique);
     }
     private void showCoursesFragment(){
         if (this.Fragcourses == null) this.Fragcourses = FragCourses.newInstance();
+        setTitle("Liste de courses");
         this.startTransactionFragment(this.Fragcourses);
     }
     private void showAdsFragment(){
         if (this.FragAds == null) this.FragAds = FragAdverts.newInstance();
+        setTitle("Annonces");
         this.startTransactionFragment(this.FragAds);
     }
 
     private void showFriendsFragment(){
         if (this.FragAmis == null) this.FragAmis = FragFriends.newInstance();
+        setTitle("Mes Amis");
         this.startTransactionFragment(this.FragAmis);
     }
 
@@ -199,6 +207,7 @@ public class ManagementActivity extends AppCompatActivity implements NavigationV
         if (!fragment.isVisible()){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_main_frame_layout, fragment).commit();
+
         }
     }
 
