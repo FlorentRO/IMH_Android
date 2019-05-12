@@ -40,7 +40,6 @@ public class FragFriends extends Fragment implements IListenItem {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);
 
         friendsListView = view.findViewById(R.id.lst_friends);
-        msgListView = view.findViewById(R.id.lst_msg);
         friendsListView.setTextFilterEnabled(true);
 
         return view;
@@ -53,16 +52,6 @@ public class FragFriends extends Fragment implements IListenItem {
         friendAdapter = new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
         friendsListView.setAdapter(friendAdapter);
         friendAdapter.addListener(this);
-
-        msgList.clear();
-        int size=users.size();
-        if(size>=1) {String test1 = users.get(0).getPseudo()+" a partagé l'annonce : Gâteau au chocolat";msgList.add(test1);}
-        if(size>=2) {String test2 = users.get(1).getPseudo()+" a commenté l'annonce : Gâteau au chocolat";msgList.add(test2);}
-        if(size>=2) {String test3 = users.get(1).getPseudo()+" a acheté le produit : Haricot vert";msgList.add(test3);}
-        if(size>=3) {String test3 = users.get(2).getPseudo()+" a acheté le produit : Haricot bleu";msgList.add(test3);}
-        arrayAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_list_item_1, msgList );
-        msgListView.setAdapter(arrayAdapter);
-
     }
 
     private void getContactList() {
@@ -122,7 +111,7 @@ public class FragFriends extends Fragment implements IListenItem {
                     startActivity(callIntent);
                 });
         builder.setNegativeButton("SMS",
-                (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null))));
+                (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, "Salut"))));
         builder.show();
     }
 

@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -29,7 +27,6 @@ import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.adapters.ProductAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
-import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 
 public class FragProducts extends Fragment implements IListenItem {
@@ -52,6 +49,9 @@ public class FragProducts extends Fragment implements IListenItem {
         productListView.setTextFilterEnabled(true);
         button = view.findViewById(R.id.AjoutProduit);
         button.setOnClickListener(v -> askDatePopup(getContext()));
+        adapter = new ProductAdapter(getContext(), products);
+        adapter.addListener(this);
+        productListView.setAdapter(adapter);
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -74,6 +74,7 @@ public class FragProducts extends Fragment implements IListenItem {
                 });
                 products.sort(Product::compareDates);
                 adapter = new ProductAdapter(getContext(), products);
+                adapter.addListener(FragProducts.this);
                 productListView.setAdapter(adapter);
             }
 
@@ -100,7 +101,6 @@ public class FragProducts extends Fragment implements IListenItem {
     }
 
     private void askDatePopup(Context context) {
-        Calendar c = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(context);
         DatePicker picker = dialog.getDatePicker();
         dialog.setTitle("Date de péremption");

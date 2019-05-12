@@ -66,7 +66,10 @@ public class ProductAdapter extends BaseAdapter {
 
 
         quantity.setText(String.format("x%s", product.getQuantity()));
-        name.setOnClickListener(v -> listViewListen.onClickName(name.getText().toString()));
+        name.setOnClickListener(v -> {
+            if (this.listViewListen != null && productName != null)
+                    listViewListen.onClickName(productName.getName());
+        });
 
         date.setText(product.getDate());
         name.setTag(position);
