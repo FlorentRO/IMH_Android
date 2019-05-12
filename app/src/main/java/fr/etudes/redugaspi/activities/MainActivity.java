@@ -2,11 +2,14 @@ package fr.etudes.redugaspi.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.Calendar;
+
+import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
@@ -20,10 +23,14 @@ import fr.etudes.redugaspi.settings.Utils;
 
 
 public class MainActivity extends AppCompatActivity{
+
+    private static int SLASH_TIME_OUT = 3000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Database.setContextAll(this);
+        setContentView(R.layout.activity_main);
         //MOCK_DATABASE();
         setupNotifications();
 
@@ -43,10 +50,16 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
-        startActivity(intent);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), ManagementActivity.class);
+                startActivity(intent);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
+        }, SLASH_TIME_OUT);
+
 
     }
 

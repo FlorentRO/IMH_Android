@@ -87,4 +87,5 @@
     <string name="produit">Produit :</string>
     <string name="quantit">Quantité :</string>
     <string name="error">Renseignez tous les champs</string>
+    <string name="logo">logo</string>
 </resources>
