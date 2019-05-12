@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.adapters.FriendAdapter;
+import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductCourses;
+import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.models.User;
 
 public class FragFriends extends Fragment implements IListenItem {
@@ -97,7 +101,6 @@ public class FragFriends extends Fragment implements IListenItem {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("INFORMATION - "+name);
         builder.setMessage("Que voulez vous faire ?");
-        builder.setNeutralButton("Rien", null);
         String getNumber = "0";
         for(User d : users){
             if(d.getPseudo().equals(name)){
@@ -105,13 +108,31 @@ public class FragFriends extends Fragment implements IListenItem {
             }
         }
         String finalGetNumber = getNumber;
-        builder.setPositiveButton("Appeler",
+        builder.setNeutralButton("Appel",
                 (dialog, which) -> {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", finalGetNumber, null));
                     startActivity(callIntent);
                 });
+        builder.setPositiveButton("Envoyer liste course",
+                (dialog, which) -> {
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null));
+                    String msg = "Liste de course :\n";
+                    List<Product> products;
+                    for (ProductCourses p:Database.getCourses().getAll()) {
+                        String pname = p.getproductName();
+                        int qtt = p.getQuantity();
+                        String msgC = pname+":"+qtt+"\n";
+                        msg = msg.concat(msgC);
+                    }
+                    smsIntent.putExtra("sms_body", msg);
+                    startActivity(smsIntent);
+                });
         builder.setNegativeButton("SMS",
-                (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, "Salut"))));
+                (dialog, which) -> {
+                    Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null));
+                    smsIntent.putExtra("sms_body", "Je t'envoi ce message depuis l'application Polygaspillage, rejoin moi pour moins gaspiller ! Lien");
+                    startActivity(smsIntent);
+                });
         builder.show();
     }
 
