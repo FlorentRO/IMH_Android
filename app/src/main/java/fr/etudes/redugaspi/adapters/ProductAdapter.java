@@ -16,6 +16,7 @@ import java.util.List;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.fragments.FragProducts;
 import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductName;
@@ -24,7 +25,7 @@ import fr.etudes.redugaspi.services.DownloadManager;
 public class ProductAdapter extends BaseAdapter {
     private List listView;
     private LayoutInflater mInflater;
-    private IListenItem listViewListen;
+    private FragProducts listViewListen;
 
     public ProductAdapter(Context context, List listView) {
         this.listView = listView;
@@ -68,7 +69,7 @@ public class ProductAdapter extends BaseAdapter {
         quantity.setText(String.format("x%s", product.getQuantity()));
         name.setOnClickListener(v -> {
             if (this.listViewListen != null && productName != null)
-                    listViewListen.onClickName(productName.getName());
+                    listViewListen.onClickProduct(product);
         });
 
         date.setText(product.getDate());
@@ -79,7 +80,7 @@ public class ProductAdapter extends BaseAdapter {
         return layoutItem;
     }
 
-    public void addListener(IListenItem itemToListen) {
+    public void addListener(FragProducts itemToListen) {
         listViewListen = itemToListen;
     }
 }
