@@ -1,9 +1,6 @@
 package fr.etudes.redugaspi.fragments;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,14 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import java.util.List;
-
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.adapters.HistoriqueAdapter;
-import fr.etudes.redugaspi.adapters.ProductAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
@@ -33,9 +25,6 @@ public class FragHistorique extends Fragment implements IListenItem {
     EditText searchText;
     ListView productListView;
 
-
-
-
     public static FragHistorique newInstance() {
         return (new FragHistorique());
     }
@@ -45,9 +34,13 @@ public class FragHistorique extends Fragment implements IListenItem {
         final View view = inflater.inflate(R.layout.frag_historique, container, false);
 
         products = Database.getHistory().getAll();
+        searchText = view.findViewById(R.id.prd_search);
+        productListView = view.findViewById(R.id.lst_product);
 
         adapter = new HistoriqueAdapter(getContext(), products);
-        searchText = view.findViewById(R.id.prd_search);
+        adapter.addListener(this);
+        productListView.setAdapter(adapter);
+
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -69,6 +62,7 @@ public class FragHistorique extends Fragment implements IListenItem {
                 });
                 products.sort((p1, p2)->Product.compareDates(p2, p1));
                 adapter = new HistoriqueAdapter(getContext(), products);
+                adapter.addListener(FragHistorique.this);
                 productListView.setAdapter(adapter);
             }
 

@@ -8,12 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
-
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.fragments.IListenItem;
@@ -50,6 +47,7 @@ public class HistoriqueAdapter  extends BaseAdapter {
         ImageView image = layoutItem.findViewById(R.id.prd_image);
         TextView name = layoutItem.findViewById(R.id.prd_name);
         TextView quantity = layoutItem.findViewById(R.id.prd_quantity);
+        TextView date = layoutItem.findViewById(R.id.prd_date);
 
         Product product = (Product) listView.get(position);
 
@@ -64,12 +62,15 @@ public class HistoriqueAdapter  extends BaseAdapter {
 
         quantity.setText(String.format("x%s", product.getQuantity()));
 
-        name.setOnClickListener(v -> listViewListen.onClickName(name.getText().toString()));
+        name.setOnClickListener(v -> {
+            if (this.listViewListen != null && name != null)
+                listViewListen.onClickName(name.getText().toString());
+        });
+        date.setText(product.getDate());
 
         name.setTag(position);
         quantity.setTag(position);
-
-
+        date.setTag(position);
 
         return layoutItem;
     }

@@ -7,11 +7,26 @@
 
 
     <TextView
+        android:id="@+id/prd_date"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:text=""
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintBottom_toBottomOf="@+id/prd_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
         android:id="@+id/prd_name"
-        android:layout_width="339dp"
-        android:layout_height="60dp"
+        android:layout_width="257dp"
+        android:layout_height="62dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="6dp"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:paddingStart="?android:attr/listPreferredItemPaddingStart"
@@ -19,9 +34,9 @@
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         app:layout_constraintBottom_toBottomOf="@+id/prd_image"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="66dp"
         tools:ignore="MissingConstraints" />
 
     <ImageView
@@ -36,11 +51,12 @@
         android:id="@+id/prd_quantity"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="56dp"
         android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/prd_date"
+        app:layout_constraintEnd_toStartOf="@+id/prd_date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -5,14 +5,11 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +17,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Calendar;
 import java.util.List;
-
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
-import fr.etudes.redugaspi.activities.ManagementActivity;
 import fr.etudes.redugaspi.adapters.CoursesAdapter;
-import fr.etudes.redugaspi.adapters.HistoriqueAdapter;
 import fr.etudes.redugaspi.databases.Database;
-import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
-import fr.etudes.redugaspi.models.ProductName;
-import fr.etudes.redugaspi.services.CustomNotificationHelper;
-import fr.etudes.redugaspi.services.TooManyProductNotification;
 
 public class FragCourses extends Fragment implements IListenItem {
     List<ProductCourses> products;
@@ -60,10 +46,9 @@ public class FragCourses extends Fragment implements IListenItem {
         searchText = view.findViewById(R.id.prd_search);
         productListView = view.findViewById(R.id.lst_product);
         addProduct = view.findViewById(R.id.AjoutProduit);
-
+        adapter.addListener(this);
         productListView.setAdapter(adapter);
         productListView.setTextFilterEnabled(true);
-        adapter.addListener(this);
 
         addProduct.setOnClickListener(v -> onClickAdd(null));
 
@@ -80,6 +65,7 @@ public class FragCourses extends Fragment implements IListenItem {
                 products = Database.getCourses().get(p -> p.getproductName().toLowerCase().contains(text));
                 products.sort((p1, p2)->p2.getQuantity()-p1.getQuantity());
                 adapter = new CoursesAdapter(getContext(), products);
+                adapter.addListener(FragCourses.this);
                 productListView.setAdapter(adapter);
             }
 
@@ -118,24 +104,25 @@ public class FragCourses extends Fragment implements IListenItem {
 
         if(name != null) {
             productname.setText(name);
-            ProductCourses p = Database.getCourses().getFirst(x->x.getproductName().equals(name));
-            if (p!=null)
-                productquantity.setText(p.getQuantity());
+            int p = Database.getCourses().getFirst(x->x.getproductName().equals(name)).getQuantity();
+            productquantity.setText(String.valueOf(p));
         }
         builder.setPositiveButton("Ajout", (dialog, which) -> {
             int quantity=Integer.parseInt(productquantity.getText().toString());
-            if (!productname.getText().toString().equals("") && quantity>0) {
+            if (!productname.getText().toString().equals("") && quantity >= 0) {
                 ProductCourses newProduct = new ProductCourses(productname.getText().toString(), quantity);
                 ProductCourses match = Database.getCourses().getFirst(x->x.getproductName().equals(newProduct.getproductName()));
                 if (match != null) {
                     Database.getCourses().remove(match);
-                    newProduct.setQuantity(match.getQuantity()+quantity);
+                    if (name != null){newProduct.setQuantity(quantity);}
+                    else {newProduct.setQuantity(match.getQuantity()+quantity);}
                 }
-                Database.getCourses().add(newProduct);
+                if (newProduct.getQuantity() <=0) {Database.getCourses().remove(newProduct);}
+                else { Database.getCourses().add(newProduct); }
+                if (newProduct.getQuantity() >=10) { tooMany(name);}
                 onResume();
             } else {
-                productname.setBackgroundColor(Color.RED);
-                productquantity.setBackgroundColor(Color.RED);
+                onClickAdd(name);
             }
         });
         builder.setNegativeButton("Annuler", null);
@@ -145,8 +132,8 @@ public class FragCourses extends Fragment implements IListenItem {
     public void onClickName(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Modification - "+name);
-        builder.setMessage("Modifier ou Scanner le produit");
-        ProductCourses currentproduct = new ProductCourses(name, 6);
+        builder.setMessage("Que voulez-vous faire ?");
+        ProductCourses currentproduct = new ProductCourses(name, -1);
         ProductCourses match = Database.getCourses().getFirst(x->x.equals(currentproduct));
 
         builder.setPositiveButton("Modifier", (dialog, which) -> {
@@ -154,6 +141,7 @@ public class FragCourses extends Fragment implements IListenItem {
         });
         builder.setNegativeButton("Supprimer", (dialog, which) -> {
             Database.getCourses().remove(match);
+            onResume();
         });
         builder.setNeutralButton("Scanner", (dialog, which) -> {
             Database.getCourses().remove(match);
@@ -164,7 +152,6 @@ public class FragCourses extends Fragment implements IListenItem {
 
 
     private void askDatePopup(Context context) {
-        Calendar c = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(context);
         DatePicker picker = dialog.getDatePicker();
         dialog.setTitle("Date de péremption");
@@ -178,5 +165,16 @@ public class FragCourses extends Fragment implements IListenItem {
             startActivity(intent);
         });
         dialog.show();
+    }
+
+    private void tooMany(String name){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("ATTENTION");
+        builder.setMessage("Vous avez beaucoup de " + name + " dans votre liste de courses");
+        builder.setPositiveButton("En Supprimer", (dialog, which) -> {
+            onClickAdd(name);
+        });
+        builder.setNegativeButton("Continuer", null);
+        builder.show();
     }
 }

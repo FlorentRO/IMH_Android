@@ -24,7 +24,7 @@ import fr.etudes.redugaspi.settings.Utils;
 
 public class MainActivity extends AppCompatActivity{
 
-    private static int SLASH_TIME_OUT = 3000;
+    private static int SLASH_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
