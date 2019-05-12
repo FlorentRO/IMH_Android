@@ -1,5 +1,6 @@
 package fr.etudes.redugaspi.fragments;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -133,8 +134,8 @@ public class FragCourses extends Fragment implements IListenItem {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Modification - "+name);
         builder.setMessage("Que voulez-vous faire ?");
-        ProductCourses currentproduct = new ProductCourses(name, -1);
-        ProductCourses match = Database.getCourses().getFirst(x->x.equals(currentproduct));
+        ProductCourses currentproduct = new ProductCourses(name, 0);
+        ProductCourses match = Database.getCourses().getFirst(x->x.getproductName().equals(currentproduct.getproductName()));
 
         builder.setPositiveButton("Modifier", (dialog, which) -> {
             onClickAdd(name);

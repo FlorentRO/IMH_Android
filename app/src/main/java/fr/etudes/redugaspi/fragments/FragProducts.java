@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import fr.etudes.redugaspi.R;
@@ -27,6 +31,7 @@ import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.adapters.ProductAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 
 public class FragProducts extends Fragment implements IListenItem {
@@ -117,10 +122,68 @@ public class FragProducts extends Fragment implements IListenItem {
     }
 
     @Override
-    public void onClickName(String name) {
+    public void onClickName(String name) {}
+
+    public void onClickProduct(Product product) {
+        String name = Database.getNames().getFirst(x->x.getBarcode().equals(product.getBarCode())).getName();
+
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Ajout - "+ name);
-        builder.setMessage("Ajouter le produit dans votre liste de courses");
+        builder.setTitle(product.getQuantity() + " x " + name);
+        builder.setMessage("Que faire:");
+        View view = inflater.inflate(R.layout.product_add_layout, null);
+        builder.setView(view);
+        EditText productquantity = view.findViewById(R.id.product_quantity);
+        productquantity.setTransformationMethod(null);
+        productquantity.setText("1");
+        builder.setPositiveButton("Consommer", (dialog, which) -> {
+            if (!productquantity.getText().toString().equals("")) {
+                int quantity = Integer.parseInt(productquantity.getText().toString());
+                if (quantity > 0) {
+                    Product match = Database.getProducts().getFirst(x -> x.equals(product));
+                    if (match != null) {
+                        Database.getProducts().remove(match);
+                        match.setQuantity(match.getQuantity() - quantity);
+                        if (match.getQuantity() > 0) {
+                            Database.getProducts().add(match);
+                        }
+                    }
+                    onResume();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Jeter", (dialog, which) -> {
+            if (!productquantity.getText().toString().equals("")) {
+                int quantity = Integer.parseInt(productquantity.getText().toString());
+                if (quantity > 0) {
+                    Product match = Database.getProducts().getFirst(x -> x.equals(product));
+                    if (match != null) {
+                        Database.getProducts().remove(match);
+                        match.setQuantity(match.getQuantity() - quantity);
+                        if (match.getQuantity() > 0) {
+                            Database.getProducts().add(match);
+                        }
+                        Calendar c = Calendar.getInstance();
+                        int day = c.get(Calendar.DATE);
+                        int month = c.get(Calendar.DATE);
+                        int year = c.get(Calendar.DATE);
+                        Product newProduct = new Product(match.getBarCode(), quantity, day, month, year);
+                        Product match2 = Database.getHistory().getFirst(x -> x.equals(newProduct));
+                        if (match2 != null) {
+                            Database.getHistory().remove(match2);
+                            match2.setQuantity(match2.getQuantity() + quantity);
+                            Database.getHistory().add(match2);
+                        } else {
+                            Database.getHistory().add(newProduct);
+                        }
+                    }
+                    onResume();
+                }
+            }
+        });
+
+        builder.setNeutralButton("Annuler", null);
         builder.show();
     }
 }
