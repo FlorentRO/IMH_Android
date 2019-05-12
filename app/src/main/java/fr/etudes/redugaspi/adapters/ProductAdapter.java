@@ -1,5 +1,6 @@
 package fr.etudes.redugaspi.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.constraint.ConstraintLayout;
@@ -45,7 +46,7 @@ public class ProductAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.product_row_layout, parent, false);
+        @SuppressLint("ViewHolder") ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.product_row_layout, parent, false);
 
         ImageView image = layoutItem.findViewById(R.id.prd_image);
         TextView name = layoutItem.findViewById(R.id.prd_name);
@@ -65,9 +66,9 @@ public class ProductAdapter extends BaseAdapter {
 
 
         quantity.setText(String.format("x%s", product.getQuantity()));
+        name.setOnClickListener(v -> listViewListen.onClickName(name.getText().toString()));
 
         date.setText(product.getDate());
-
         name.setTag(position);
         quantity.setTag(position);
         date.setTag(position);

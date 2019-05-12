@@ -1,5 +1,6 @@
 package fr.etudes.redugaspi.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.adapters.ProductAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 
 public class FragProducts extends Fragment implements IListenItem {
@@ -97,11 +99,6 @@ public class FragProducts extends Fragment implements IListenItem {
         search.setText("");
     }
 
-    @Override
-    public void onClickName(String name) {
-        Toast.makeText(getContext(), "...", Toast.LENGTH_LONG).show();
-    }
-
     private void askDatePopup(Context context) {
         Calendar c = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(context);
@@ -117,5 +114,13 @@ public class FragProducts extends Fragment implements IListenItem {
             startActivity(intent);
         });
         dialog.show();
+    }
+
+    @Override
+    public void onClickName(String name) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Ajout - "+ name);
+        builder.setMessage("Ajouter le produit dans votre liste de courses");
+        builder.show();
     }
 }
