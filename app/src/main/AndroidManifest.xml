@@ -39,6 +39,7 @@
             android:name=".services.WeeklyNotification"
             android:exported="false"/>
         <receiver android:name=".services.DailyNotification" />
+        <receiver android:name=".services.TooManyProductNotification" />
     </application>
 
 </manifest>

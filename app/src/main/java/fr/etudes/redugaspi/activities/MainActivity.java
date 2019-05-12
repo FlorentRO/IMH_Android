@@ -1,31 +1,19 @@
 package fr.etudes.redugaspi.activities;
 
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Pair;
-import android.util.TimeUtils;
-import android.widget.Button;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalField;
 import java.util.Calendar;
-import java.util.Date;
-
-import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
 import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.services.CustomNotificationHelper;
 import fr.etudes.redugaspi.services.DailyNotification;
+import fr.etudes.redugaspi.services.TooManyProductNotification;
 import fr.etudes.redugaspi.services.WeeklyNotification;
 
 import fr.etudes.redugaspi.settings.Utils;
@@ -50,6 +38,7 @@ public class MainActivity extends AppCompatActivity{
         Log.e("ERROR", ""+(start-System.currentTimeMillis()));
         CustomNotificationHelper.schedule(this, DailyNotification.class, start);
         CustomNotificationHelper.schedule(this, WeeklyNotification.class, start);
+        CustomNotificationHelper.schedule(this, TooManyProductNotification.class, start);
 
     }
 

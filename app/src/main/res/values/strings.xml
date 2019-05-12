@@ -86,4 +86,5 @@
     <string name="pref_summary_delay_loading_barcode_result">Will show the loading spinner for 2s</string>
     <string name="produit">Produit :</string>
     <string name="quantit">Quantité :</string>
+    <string name="error">Renseignez tous les champs</string>
 </resources>
