@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,20 @@ import java.util.List;
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.adapters.HistoriqueAdapter;
+import fr.etudes.redugaspi.adapters.ProductAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
+import fr.etudes.redugaspi.models.ProductName;
 
 public class FragHistorique extends Fragment implements IListenItem {
+    List<Product> products;
+    HistoriqueAdapter adapter;
+    EditText searchText;
+    ListView productListView;
+
+
+
 
     public static FragHistorique newInstance() {
         return (new FragHistorique());
@@ -33,17 +44,59 @@ public class FragHistorique extends Fragment implements IListenItem {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_historique, container, false);
 
-        List<Product> products = Database.getHistory().getAll();
+        products = Database.getHistory().getAll();
 
-        HistoriqueAdapter adapter = new HistoriqueAdapter(getContext(), products);
-        EditText searchText = view.findViewById(R.id.prd_search);
-        ListView productListView = view.findViewById(R.id.lst_product);
+        adapter = new HistoriqueAdapter(getContext(), products);
+        searchText = view.findViewById(R.id.prd_search);
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        productListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString().toLowerCase();
+
+                products = Database.getHistory().get(p -> {
+                    ProductName pname = Database.getNames().getFirst(pn -> pn.getBarcode().equals(p.getBarCode()));
+                    String name;
+                    if (pname != null)
+                        name = pname.getName();
+                    else
+                        name = "";
+                    return name.toLowerCase().contains(text);
+                });
+                products.sort((p1, p2)->Product.compareDates(p2, p1));
+                adapter = new HistoriqueAdapter(getContext(), products);
+                productListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        productListView = view.findViewById(R.id.lst_product);
         productListView.setTextFilterEnabled(true);
-        adapter.addListener(this);
+
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        products = Database.getHistory().getAll();
+        products.sort((p1, p2)->Product.compareDates(p2, p1));
+        adapter = new HistoriqueAdapter(getContext(), products);
+        adapter.addListener(this);
+
+        productListView.setAdapter(adapter);
+
+        searchText.setText("");
     }
 
     @Override

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +30,21 @@ import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.activities.LiveBarcodeScanningActivity;
 import fr.etudes.redugaspi.activities.ManagementActivity;
 import fr.etudes.redugaspi.adapters.CoursesAdapter;
+import fr.etudes.redugaspi.adapters.HistoriqueAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductCourses;
+import fr.etudes.redugaspi.models.ProductName;
+import fr.etudes.redugaspi.services.CustomNotificationHelper;
+import fr.etudes.redugaspi.services.TooManyProductNotification;
 
 public class FragCourses extends Fragment implements IListenItem {
+    List<ProductCourses> products;
+    EditText searchText;
+    ListView productListView;
+    Button addProduct;
+    CoursesAdapter adapter;
+
 
     public static FragCourses newInstance() {
         return (new FragCourses());
@@ -42,12 +54,12 @@ public class FragCourses extends Fragment implements IListenItem {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_courses, container, false);
 
-        List<ProductCourses> products = Database.getCourses().getAll();
+        products = Database.getCourses().getAll();
 
-        CoursesAdapter adapter = new CoursesAdapter(getContext(), products);
-        EditText searchText = view.findViewById(R.id.prd_search);
-        ListView productListView = view.findViewById(R.id.lst_product);
-        Button addProduct = view.findViewById(R.id.AjoutProduit);
+        adapter = new CoursesAdapter(getContext(), products);
+        searchText = view.findViewById(R.id.prd_search);
+        productListView = view.findViewById(R.id.lst_product);
+        addProduct = view.findViewById(R.id.AjoutProduit);
 
         productListView.setAdapter(adapter);
         productListView.setTextFilterEnabled(true);
@@ -55,8 +67,44 @@ public class FragCourses extends Fragment implements IListenItem {
 
         addProduct.setOnClickListener(v -> onClickAdd(null));
 
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString().toLowerCase();
+
+                products = Database.getCourses().get(p -> p.getproductName().toLowerCase().contains(text));
+                products.sort((p1, p2)->p2.getQuantity()-p1.getQuantity());
+                adapter = new CoursesAdapter(getContext(), products);
+                productListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        products = Database.getCourses().getAll();
+        products.sort((p1, p2)->p2.getQuantity()-p1.getQuantity());
+        adapter = new CoursesAdapter(getContext(), products);
+        adapter.addListener(this);
+
+        productListView.setAdapter(adapter);
+
+        searchText.setText("");
+    }
+
     public void onClickAdd (String name){
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -68,25 +116,24 @@ public class FragCourses extends Fragment implements IListenItem {
         EditText productquantity = view.findViewById(R.id.product_quantity);
         productquantity.setTransformationMethod(null);
 
-        if(name != null){
+        if(name != null) {
             productname.setText(name);
-            productquantity.setText("0");
+            ProductCourses p = Database.getCourses().getFirst(x->x.getproductName().equals(name));
+            if (p!=null)
+                productquantity.setText(p.getQuantity());
         }
         builder.setPositiveButton("Ajout", (dialog, which) -> {
-
-            if (productname != null && productquantity != null ) {
-                int quantity=Integer.parseInt(productquantity.getText().toString());
-
+            int quantity=Integer.parseInt(productquantity.getText().toString());
+            if (!productname.getText().toString().equals("") && quantity>0) {
                 ProductCourses newProduct = new ProductCourses(productname.getText().toString(), quantity);
-                ProductCourses match = Database.getCourses().getFirst(x->x.equals(newProduct));
+                ProductCourses match = Database.getCourses().getFirst(x->x.getproductName().equals(newProduct.getproductName()));
                 if (match != null) {
-                    newProduct.setQuantity(match.getQuantity()+quantity);
                     Database.getCourses().remove(match);
-                    Database.getCourses().add(newProduct);
-                } else {
-                    Database.getCourses().add(newProduct);
+                    newProduct.setQuantity(match.getQuantity()+quantity);
                 }
-            }else {
+                Database.getCourses().add(newProduct);
+                onResume();
+            } else {
                 productname.setBackgroundColor(Color.RED);
                 productquantity.setBackgroundColor(Color.RED);
             }

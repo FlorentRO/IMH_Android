@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity{
         Log.e("ERROR", ""+(start-System.currentTimeMillis()));
         CustomNotificationHelper.schedule(this, DailyNotification.class, start);
         CustomNotificationHelper.schedule(this, WeeklyNotification.class, start);
-        CustomNotificationHelper.schedule(this, TooManyProductNotification.class, start);
-
     }
 
     @Override

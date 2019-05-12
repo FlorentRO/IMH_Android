@@ -1,6 +1,8 @@
 package fr.etudes.redugaspi.models;
 
-public class Advert {
+import java.io.Serializable;
+
+public class Advert implements Serializable {
     private Product product;
     private String price;
 

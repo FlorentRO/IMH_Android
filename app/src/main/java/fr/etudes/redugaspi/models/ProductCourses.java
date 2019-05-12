@@ -1,7 +1,9 @@
 package fr.etudes.redugaspi.models;
 
 
-public class ProductCourses {
+import java.io.Serializable;
+
+public class ProductCourses implements Serializable {
 
     private String productName;
     private int quantity;
@@ -26,4 +28,13 @@ public class ProductCourses {
         this.quantity = quantity;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj instanceof ProductCourses) {
+                return productName.equals(((ProductCourses) obj).productName)&&quantity==((ProductCourses) obj).quantity;
+            }
+        }
+        return false;
+    }
 }
