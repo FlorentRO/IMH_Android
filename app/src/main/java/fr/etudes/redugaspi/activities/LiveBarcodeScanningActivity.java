@@ -20,24 +20,22 @@ import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.common.internal.Objects;
 
+import java.io.IOException;
+import java.util.Calendar;
+
 import fr.etudes.redugaspi.R;
-import fr.etudes.redugaspi.barcodedetection.BarcodeField;
 import fr.etudes.redugaspi.barcodedetection.BarcodeProcessor;
 import fr.etudes.redugaspi.barcodedetection.BarcodeResultFragment;
 import fr.etudes.redugaspi.camera.CameraSource;
@@ -47,12 +45,6 @@ import fr.etudes.redugaspi.camera.WorkflowModel;
 import fr.etudes.redugaspi.camera.WorkflowModel.WorkflowState;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /** Demonstrates the barcode scanning workflow using camera preview. */
 public class LiveBarcodeScanningActivity extends AppCompatActivity implements OnClickListener {
@@ -135,6 +127,7 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
     }
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void onClick(View view) {
     int id = view.getId();

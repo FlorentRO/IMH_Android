@@ -35,7 +35,9 @@ public class DownloadManager {
                 String name = json.getJSONObject("product").getString("product_name");
                 Database.getNames().add(new ProductName(barcode, name));
             }
-        } catch (JSONException ignored) {}
+        } catch (JSONException e) {
+            throw new IllegalArgumentException();
+        }
 
         return json;
     }
