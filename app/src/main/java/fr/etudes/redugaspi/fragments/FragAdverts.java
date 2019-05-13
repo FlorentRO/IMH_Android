@@ -30,6 +30,7 @@ import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.adapters.AdvertAdapter;
 import fr.etudes.redugaspi.models.Advert;
 import fr.etudes.redugaspi.models.Product;
+import fr.etudes.redugaspi.services.DownloadManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,13 @@ public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_adverts, container, false);
 
+        DownloadManager.getProductData(getContext(),"3116430210371");
+
         ArrayList<Advert> adverts = new ArrayList<>();
-        adverts.add(new Advert(new Product("3116430210371", 1, 1, 1, 1975), "2.5 € / kg"));
-        adverts.add(new Advert(new Product("3116430210371", 2, 2, 2, 1970),"2.5 € / kg"));
-        adverts.add(new Advert(new Product("3116430210371", 3, 3, 3, 1970),"2.5 € / kg"));
-        adverts.add(new Advert(new Product("3116430210371", 4, 4, 4, 1970),"2.5 € / kg"));
+        adverts.add(new Advert(new Product("3116430210371", 1, 1, 1, 1975), "2.5 € / kg", "Casino St Philippe"));
+        adverts.add(new Advert(new Product("3116430210371", 2, 2, 2, 1970),"2.5 € / kg", "carrefour Antibes"));
+        adverts.add(new Advert(new Product("3116430210371", 3, 3, 3, 1970),"2.5 € / kg", "Spar Roquefort"));
+        adverts.add(new Advert(new Product("3116430210371", 4, 4, 4, 1970),"2.5 € / kg", "Carrefour Antibes"));
 
         AdvertAdapter adapter = new AdvertAdapter(getContext(), adverts);
 

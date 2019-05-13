@@ -16,8 +16,10 @@ import org.json.JSONObject;
 import java.util.List;
 
 import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Advert;
+import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.services.DownloadManager;
 
 public class AdvertAdapter extends BaseAdapter {
@@ -47,30 +49,26 @@ public class AdvertAdapter extends BaseAdapter {
         ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.advert_row_layout, parent, false);
 
         //TextView name = layoutItem.findViewById(R.id.name_product);
-        TextView quantity = layoutItem.findViewById(R.id.price_product);
+        TextView adTitle = layoutItem.findViewById(R.id.price_product);
         //TextView dateP = layoutItem.findViewById(R.id.desc_product);
         TextView nameShop = layoutItem.findViewById(R.id.name_shop);
 
         Advert advert = (Advert) listView.get(position);
-        //JSONObject json = DownloadManager.getProductData(parent.getContext(), advert.getProduct().getBarCode());
 
-        /*try {
-            name.setText(json.getJSONObject("product").getString("product_name"));
-            Bitmap bitmap = DownloadManager.getImage(parent.getContext(), advert.getProduct().getBarCode());
-        } catch (JSONException e) {
-            Log.e("ERROR", e.getMessage());
+        String name = "";
+        ProductName product = Database.getNames().getFirst(x -> x.getBarcode().equals(advert.getProduct().getBarCode()));
+        if(product != null){
+            name = product.getName();
         }
 
-        name.setTag(position);*/
-
-        quantity.setText("Gâteau au chocolat - x" + advert.getProduct().getQuantity() + " - périme le "
+        adTitle.setText(name +" quantité : " +advert.getProduct().getQuantity() + " - périme le "
                 + advert.getProduct().getDate());
-        quantity.setTag(position);
+        adTitle.setTag(position);
 
         //dateP.setText(" périme dans "+ advert.getProduct().getDate() +" jour(s)");
         //dateP.setTag(position);
 
-        nameShop.setText("Casino");
+        nameShop.setText(advert.getShop());
         nameShop.setTag(position);
 
 
