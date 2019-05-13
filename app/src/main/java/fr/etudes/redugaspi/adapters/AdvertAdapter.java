@@ -2,6 +2,8 @@ package fr.etudes.redugaspi.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
+import fr.etudes.redugaspi.fragments.FragAdverts;
 import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Advert;
 import fr.etudes.redugaspi.models.ProductName;
@@ -26,7 +29,7 @@ public class AdvertAdapter extends BaseAdapter {
 
     private List listView;
     private LayoutInflater mInflater;
-    private IListenItem listViewListen;
+    private FragAdverts listViewListen;
 
     public AdvertAdapter(Context context, List listView) {
         this.listView = listView;
@@ -59,12 +62,17 @@ public class AdvertAdapter extends BaseAdapter {
             name = product.getName();
         }
 
+        layoutItem.setOnClickListener(v -> {
+            if (this.listViewListen != null)
+                listViewListen.onClickAdvert(advert);
+        });
+
+        nameShop.setTypeface(null, Typeface.BOLD);
+        nameShop.setBackgroundColor(Color.parseColor("lightgrey"));
+
         adTitle.setText(name +" quantité : " +advert.getProduct().getQuantity() + " - périme le "
                 + advert.getProduct().getDate());
         adTitle.setTag(position);
-
-        //dateP.setText(" périme dans "+ advert.getProduct().getDate() +" jour(s)");
-        //dateP.setTag(position);
 
         nameShop.setText(advert.getShop());
         nameShop.setTag(position);
@@ -73,7 +81,7 @@ public class AdvertAdapter extends BaseAdapter {
         return layoutItem;
     }
 
-    public void addListener(IListenItem itemToListen) {
+    public void addListener(FragAdverts itemToListen) {
         listViewListen = itemToListen;
     }
 }

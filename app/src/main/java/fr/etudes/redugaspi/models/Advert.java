@@ -26,5 +26,5 @@ public class Advert implements Serializable {
     public String getPrice() { return price; }
     public double getLatitude() { return latitude; }
     public double getLongitude() { return  longitude; }
-    private String getDescAdd() { return descAdd; }
+    public String getDescAdd() { return descAdd; }
 }

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Database.setContextAll(this);
         setContentView(R.layout.activity_main);
-        //MOCK_DATABASE();
+        MOCK_DATABASE();
         setupNotifications();
 
     }
@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity{
         Database.getProducts().add(new Product("26017969", 1, 10,5,2019));
         Database.getProducts().add(new Product("4002359009471", 1, 10,5,2020));
         Database.getProducts().add(new Product("3564700332856", 1, 10,5,2020));
-        Database.getProducts().add(new Product("3564700332856", 1, 10,4,2019));
-        Database.getProducts().add(new Product("26017969", 1, 10,5,2019));
+        Database.getProducts().add(new Product("3564700332856", 1, 13,5,2019));
+        Database.getProducts().add(new Product("26017969", 1, 14,5,2019));
         Database.getProducts().add(new Product("4002359009471", 1, 10,5,2015));
         Database.getProducts().add(new Product("4002359009471", 1, 10,5,2019));
         Database.getProducts().add(new Product("3564700332856", 1, 10,5,2015));

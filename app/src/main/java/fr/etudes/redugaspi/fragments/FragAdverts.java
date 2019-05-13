@@ -38,6 +38,8 @@ import java.util.List;
 public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCallback {
     private View view;
     ListView mListView;
+    ArrayList<Advert> advert;
+    GoogleMap googleMap;
 
     public static FragAdverts newInstance() {
         return (new FragAdverts());
@@ -48,14 +50,19 @@ public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCall
         final View view = inflater.inflate(R.layout.frag_adverts, container, false);
 
         DownloadManager.getProductData(getContext(),"3116430210371");
+        DownloadManager.getProductData(getContext(),"3564700332856");
+        DownloadManager.getProductData(getContext(),"4002359009471");
+        DownloadManager.getProductData(getContext(),"3250390000853");
 
         ArrayList<Advert> adverts = new ArrayList<>();
         adverts.add(new Advert(new Product("3116430210371", 1, 1, 1, 1975), "2.5 € / kg", "Casino Supermarché", 43.617996, 7.075185, "20% sur les Cordons bleus Père Dodu !"));
-        adverts.add(new Advert(new Product("3116430210371", 2, 2, 2, 1970),"2.5 € / kg", "Carrefour Antibes", 43.604116, 7.089257, "2 paquets de jambon achetés 1 offert !"));
-        adverts.add(new Advert(new Product("3116430210371", 3, 3, 3, 1970),"2.5 € / kg", "Lidle Antibes", 43.599428, 7.104236, "25% sur le saucisson Justin Bridou !"));
-        adverts.add(new Advert(new Product("3116430210371", 4, 4, 4, 1970),"2.5 € / kg", "Leclerc", 43.592544, 7.057965, "15% sur la pastaBox Bolognaise !"));
+        adverts.add(new Advert(new Product("3564700332856", 2, 2, 2, 1970),"2.5 € / kg", "Carrefour Antibes", 43.604116, 7.089257, "2 paquets de jambon achetés 1 offert !"));
+        adverts.add(new Advert(new Product("4002359009471", 3, 3, 3, 1970),"2.5 € / kg", "Lidle Antibes", 43.599428, 7.104236, "25% sur le saucisson Justin Bridou !"));
+        adverts.add(new Advert(new Product("3250390000853", 4, 4, 4, 1970),"2.5 € / kg", "Leclerc", 43.592544, 7.057965, "15% sur la pastaBox Bolognaise !"));
         adverts.add(new Advert(new Product("3116430210371", 5, 5, 5, 1970),"2.5 € / kg", "E.Leclerc Antibes les pins", 43.574443, 7.091099, "1 paquet de yaourts aux fruitx acheté 1 autre offert !"));
 
+
+        advert = adverts;
 
         AdvertAdapter adapter = new AdvertAdapter(getContext(), adverts);
 
@@ -73,18 +80,20 @@ public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.617996, 7.075185)).title("Casino Supermarché").snippet("20% sur les Cordons bleus Père Dodu !"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.604116, 7.089257)).title("Carrefour Antibes").snippet("2 paquets de jambon achetés 1 offert !"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.599428, 7.104236)).title("Lidle Antibes").snippet("25% sur le saucisson Justin Bridou !"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.592544, 7.057965)).title("Leclerc").snippet("15% sur la pastaBox Bolognaise !"));
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(43.574443, 7.091099)).title("E.Leclerc Antibes les pins").snippet("1 paquet de yaourts aux fruitx acheté 1 autre offert !"));
+        this.googleMap = googleMap;
+        for(Advert ad : advert){
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(ad.getLatitude(), ad.getLongitude())).title(ad.getShop()).snippet(ad.getDescAdd()));
+        }
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.615781, 7.071805), 10));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(advert.get(0).getLatitude(), advert.get(0).getLongitude()), 10));
 
     }
+    public void onClickAdvert(Advert ad) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(ad.getLatitude(), ad.getLongitude()), 17));
+    }
+
     @Override
     public void onClickName(String name) {
-        Toast.makeText(getContext(), "...", Toast.LENGTH_LONG).show();
     }
 }
 
