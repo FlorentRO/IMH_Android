@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import fr.etudes.redugaspi.R;
+import fr.etudes.redugaspi.adapters.CoursesAdapter;
 import fr.etudes.redugaspi.adapters.FriendAdapter;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.models.Product;
@@ -29,12 +33,11 @@ import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.models.User;
 
 public class FragFriends extends Fragment implements IListenItem {
+    List<User> fullUsers = new ArrayList<>();
     List<User> users = new ArrayList<>();
-    List<String> msgList = new ArrayList<>();
     FriendAdapter friendAdapter;
     ListView friendsListView;
-    ListView msgListView;
-    ArrayAdapter<String> arrayAdapter;
+    EditText search;
 
 
     public static FragFriends newInstance() { return (new FragFriends()); }
@@ -42,10 +45,31 @@ public class FragFriends extends Fragment implements IListenItem {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_friends, container, false);
-
+        fullUsers = getContactList();
         friendsListView = view.findViewById(R.id.lst_friends);
         friendsListView.setTextFilterEnabled(true);
+        search = view.findViewById(R.id.search_friend);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = s.toString().toLowerCase();
+
+                users = fullUsers.stream().filter(u -> u.getPseudo().toLowerCase().contains(text)).collect(Collectors.toList());
+                friendAdapter = new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
+                friendAdapter.addListener(FragFriends.this);
+                friendsListView.setAdapter(friendAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return view;
     }
 
@@ -55,10 +79,12 @@ public class FragFriends extends Fragment implements IListenItem {
         getContactList();
         friendAdapter = new FriendAdapter(getContext(), users.stream().map(User::getPseudo).collect(Collectors.toList()));
         friendsListView.setAdapter(friendAdapter);
+        search.setText("");
         friendAdapter.addListener(this);
     }
 
-    private void getContactList() {
+    private List<User> getContactList() {
+        List<User> result = new ArrayList<>();
         ContentResolver cr = Objects.requireNonNull(getActivity()).getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
@@ -82,7 +108,7 @@ public class FragFriends extends Fragment implements IListenItem {
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
 
                         if (!haveDup(name)){
-                            users.add(new User(name,phoneNo));
+                            result.add(new User(name,phoneNo));
                         }
                     }
                     if (pCur != null) {
@@ -94,6 +120,7 @@ public class FragFriends extends Fragment implements IListenItem {
         if(cur!=null){
             cur.close();
         }
+        return result;
     }
 
     @Override
