@@ -31,16 +31,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Database.setContextAll(this);
         setContentView(R.layout.activity_main);
-        MOCK_DATABASE();
+        //MOCK_DATABASE();
         setupNotifications();
 
     }
 
     private void setupNotifications() {
         Calendar cal=Calendar.getInstance();
-        cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK))+7); // sunday
-        cal.set(Calendar.HOUR_OF_DAY, 17);
-        cal.set(Calendar.MINUTE, 0);
+        cal.add( Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK))+1); // sunday
+        cal.set(Calendar.HOUR_OF_DAY, 14);
+        cal.set(Calendar.MINUTE, 20);
         long start = cal.getTimeInMillis();
         Log.e("ERROR", ""+(start-System.currentTimeMillis()));
         CustomNotificationHelper.schedule(this, DailyNotification.class, start);
