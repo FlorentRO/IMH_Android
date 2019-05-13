@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import fr.etudes.redugaspi.R;
 import fr.etudes.redugaspi.databases.Database;
 import fr.etudes.redugaspi.fragments.FragProducts;
-import fr.etudes.redugaspi.fragments.IListenItem;
 import fr.etudes.redugaspi.models.Product;
 import fr.etudes.redugaspi.models.ProductName;
 import fr.etudes.redugaspi.services.DownloadManager;
