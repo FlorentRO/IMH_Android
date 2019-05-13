@@ -85,7 +85,7 @@ public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCall
             googleMap.addMarker(new MarkerOptions().position(new LatLng(ad.getLatitude(), ad.getLongitude())).title(ad.getShop()).snippet(ad.getDescAdd()));
         }
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(advert.get(0).getLatitude(), advert.get(0).getLongitude()), 10));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(advert.get(0).getLatitude(), advert.get(0).getLongitude()), 13));
 
     }
     public void onClickAdvert(Advert ad) {

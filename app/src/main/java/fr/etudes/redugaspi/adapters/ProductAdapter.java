@@ -85,7 +85,10 @@ public class ProductAdapter extends BaseAdapter {
                 if (compared <= AlarmManager.INTERVAL_DAY) {
                     date.setBackgroundColor(Color.parseColor("#FFA500"));
                     if (compared <= 0) {
-                        date.setBackgroundColor(Color.parseColor("gray"));
+                        date.setBackgroundColor(Color.parseColor("red"));
+                        if (compared <= -AlarmManager.INTERVAL_DAY){
+                            layoutItem.setBackgroundColor(Color.parseColor("grey"));
+                        }
                     }
                 }
             }
