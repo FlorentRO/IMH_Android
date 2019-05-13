@@ -48,9 +48,7 @@ public class AdvertAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ConstraintLayout layoutItem = (ConstraintLayout) mInflater.inflate(R.layout.advert_row_layout, parent, false);
 
-        //TextView name = layoutItem.findViewById(R.id.name_product);
         TextView adTitle = layoutItem.findViewById(R.id.price_product);
-        //TextView dateP = layoutItem.findViewById(R.id.desc_product);
         TextView nameShop = layoutItem.findViewById(R.id.name_shop);
 
         Advert advert = (Advert) listView.get(position);

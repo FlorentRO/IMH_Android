@@ -50,10 +50,12 @@ public class FragAdverts extends Fragment implements IListenItem, OnMapReadyCall
         DownloadManager.getProductData(getContext(),"3116430210371");
 
         ArrayList<Advert> adverts = new ArrayList<>();
-        adverts.add(new Advert(new Product("3116430210371", 1, 1, 1, 1975), "2.5 € / kg", "Casino St Philippe"));
-        adverts.add(new Advert(new Product("3116430210371", 2, 2, 2, 1970),"2.5 € / kg", "carrefour Antibes"));
-        adverts.add(new Advert(new Product("3116430210371", 3, 3, 3, 1970),"2.5 € / kg", "Spar Roquefort"));
-        adverts.add(new Advert(new Product("3116430210371", 4, 4, 4, 1970),"2.5 € / kg", "Carrefour Antibes"));
+        adverts.add(new Advert(new Product("3116430210371", 1, 1, 1, 1975), "2.5 € / kg", "Casino Supermarché", 43.617996, 7.075185, "20% sur les Cordons bleus Père Dodu !"));
+        adverts.add(new Advert(new Product("3116430210371", 2, 2, 2, 1970),"2.5 € / kg", "Carrefour Antibes", 43.604116, 7.089257, "2 paquets de jambon achetés 1 offert !"));
+        adverts.add(new Advert(new Product("3116430210371", 3, 3, 3, 1970),"2.5 € / kg", "Lidle Antibes", 43.599428, 7.104236, "25% sur le saucisson Justin Bridou !"));
+        adverts.add(new Advert(new Product("3116430210371", 4, 4, 4, 1970),"2.5 € / kg", "Leclerc", 43.592544, 7.057965, "15% sur la pastaBox Bolognaise !"));
+        adverts.add(new Advert(new Product("3116430210371", 5, 5, 5, 1970),"2.5 € / kg", "E.Leclerc Antibes les pins", 43.574443, 7.091099, "1 paquet de yaourts aux fruitx acheté 1 autre offert !"));
+
 
         AdvertAdapter adapter = new AdvertAdapter(getContext(), adverts);
 
