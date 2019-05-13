@@ -50,8 +50,6 @@ public class CustomNotificationHelper {
     protected static NotificationCompat.Builder getNotificationBuilder(Context context, String channelId) {
         return new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.mipmap.logo_round)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                        R.mipmap.logo_round))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
     }
