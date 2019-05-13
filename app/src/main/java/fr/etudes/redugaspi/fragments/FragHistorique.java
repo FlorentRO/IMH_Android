@@ -101,7 +101,7 @@ public class FragHistorique extends Fragment implements IListenItem {
         builder.setPositiveButton("Ajouter", (dialog, which) -> {
             if (name != null) {
                 ProductCourses newProduct = new ProductCourses(name, 1);
-                ProductCourses match = Database.getCourses().getFirst(x->x.equals(newProduct));
+                ProductCourses match = Database.getCourses().getFirst(x->x.getproductName().equals(newProduct.getproductName()));
                 if (match != null) {
                     newProduct.setQuantity(match.getQuantity()+1);
                     Database.getCourses().remove(match);

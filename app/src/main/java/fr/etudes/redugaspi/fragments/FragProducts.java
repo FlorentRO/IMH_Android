@@ -165,15 +165,15 @@ public class FragProducts extends Fragment implements IListenItem {
                             Database.getProducts().add(match);
                         }
                         Calendar c = Calendar.getInstance();
-                        int day = c.get(Calendar.DATE);
-                        int month = c.get(Calendar.DATE);
-                        int year = c.get(Calendar.DATE);
+                        int day = c.get(Calendar.DAY_OF_MONTH);
+                        int month = c.get(Calendar.MONTH)+1;
+                        int year = c.get(Calendar.YEAR);
                         Product newProduct = new Product(match.getBarCode(), quantity, day, month, year);
-                        Product match2 = Database.getHistory().getFirst(x -> x.equals(newProduct));
+                        Product match2 = Database.getHistory().getFirst(x -> x.getBarCode().equals(newProduct.getBarCode()));
                         if (match2 != null) {
                             Database.getHistory().remove(match2);
-                            match2.setQuantity(match2.getQuantity() + quantity);
-                            Database.getHistory().add(match2);
+                            newProduct.setQuantity(match2.getQuantity() + quantity);
+                            Database.getHistory().add(newProduct);
                         } else {
                             Database.getHistory().add(newProduct);
                         }
