@@ -90,5 +90,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 }
 
