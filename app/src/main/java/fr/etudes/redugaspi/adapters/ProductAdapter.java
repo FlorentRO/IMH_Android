@@ -60,40 +60,42 @@ public class ProductAdapter extends BaseAdapter {
 
         Product product = (Product) listView.get(position);
 
-        DownloadManager.getProductData(parent.getContext(), product.getBarCode());
+        try {
+            DownloadManager.getProductData(parent.getContext(), product.getBarCode());
+            ProductName productName = Database.getNames().getFirst(x -> x.getBarcode().equals(product.getBarCode()));
+            if (productName != null)
+                name.setText(productName.getName());
 
-        ProductName productName = Database.getNames().getFirst(x->x.getBarcode().equals(product.getBarCode()));
-        if (productName != null)
-            name.setText(productName.getName());
-
-        Bitmap bitmap = DownloadManager.getImage(parent.getContext(), product.getBarCode());
-        image.setImageBitmap(bitmap);
+            Bitmap bitmap = DownloadManager.getImage(parent.getContext(), product.getBarCode());
+            image.setImageBitmap(bitmap);
 
 
-        quantity.setText(String.format("x%s", product.getQuantity()));
-        name.setOnClickListener(v -> {
-            if (this.listViewListen != null && productName != null)
+            quantity.setText(String.format("x%s", product.getQuantity()));
+            name.setOnClickListener(v -> {
+                if (this.listViewListen != null && productName != null)
                     listViewListen.onClickProduct(product);
-        });
+            });
 
-        date.setText(product.getDate());
-        name.setTag(position);
-        quantity.setTag(position);
-        date.setTag(position);
+            date.setText(product.getDate());
+            name.setTag(position);
+            quantity.setTag(position);
+            date.setTag(position);
 
-        long productMilis = product.getDateMillis();
-        long currentTime = System.currentTimeMillis();
-        long compared = productMilis - currentTime;
-        if(compared <= (AlarmManager.INTERVAL_DAY * 2)){
-            date.setBackgroundColor(Color.parseColor("yellow"));
-            if(compared <= AlarmManager.INTERVAL_DAY){
-                date.setBackgroundColor(Color.parseColor("#FFA500"));
-                if(compared <= 0){
-                    date.setBackgroundColor(Color.parseColor("gray"));
+            long productMilis = product.getDateMillis();
+            long currentTime = System.currentTimeMillis();
+            long compared = productMilis - currentTime;
+            if (compared <= (AlarmManager.INTERVAL_DAY * 2)) {
+                date.setBackgroundColor(Color.parseColor("yellow"));
+                if (compared <= AlarmManager.INTERVAL_DAY) {
+                    date.setBackgroundColor(Color.parseColor("#FFA500"));
+                    if (compared <= 0) {
+                        date.setBackgroundColor(Color.parseColor("gray"));
+                    }
                 }
             }
+        } catch (IllegalArgumentException e) {
+            Database.getProducts().remove(product);
         }
-
         return layoutItem;
     }
 
