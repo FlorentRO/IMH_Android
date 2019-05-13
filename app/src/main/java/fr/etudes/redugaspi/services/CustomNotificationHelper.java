@@ -11,6 +11,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
@@ -48,7 +49,9 @@ public class CustomNotificationHelper {
 
     protected static NotificationCompat.Builder getNotificationBuilder(Context context, String channelId) {
         return new NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.logo_round)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                        R.mipmap.logo_round))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
     }

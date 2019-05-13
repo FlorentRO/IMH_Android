@@ -81,13 +81,13 @@ public class ProductAdapter extends BaseAdapter {
             long currentTime = System.currentTimeMillis();
             long compared = productMilis - currentTime;
             if (compared <= (AlarmManager.INTERVAL_DAY * 2)) {
-                date.setBackgroundColor(Color.parseColor("yellow"));
+                date.setBackgroundColor(Color.parseColor("#FFFF6B"));
                 if (compared <= AlarmManager.INTERVAL_DAY) {
                     date.setBackgroundColor(Color.parseColor("#FFA500"));
                     if (compared <= 0) {
-                        date.setBackgroundColor(Color.parseColor("red"));
+                        date.setBackgroundColor(Color.parseColor("#FF0033"));
                         if (compared <= -AlarmManager.INTERVAL_DAY){
-                            layoutItem.setBackgroundColor(Color.parseColor("grey"));
+                            layoutItem.setBackgroundColor(Color.parseColor("#CBBEB5"));
                         }
                     }
                 }
