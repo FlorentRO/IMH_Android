@@ -127,7 +127,7 @@ public class FragFriends extends Fragment implements IListenItem {
     public void onClickName(String name) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("INFORMATION - "+name);
-        builder.setMessage("Que voulez vous faire ?");
+        builder.setMessage("Que voulez-vous faire ?");
         String getNumber = "0";
         for(User d : users){
             if(d.getPseudo().equals(name)){
@@ -140,10 +140,10 @@ public class FragFriends extends Fragment implements IListenItem {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", finalGetNumber, null));
                     startActivity(callIntent);
                 });
-        builder.setPositiveButton("Envoyer liste course",
+        builder.setPositiveButton("Envoyer la liste de courses",
                 (dialog, which) -> {
                     Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null));
-                    String msg = "Liste de course :\n";
+                    String msg = "Liste de courses :\n";
                     List<Product> products;
                     for (ProductCourses p:Database.getCourses().getAll()) {
                         String pname = p.getproductName();
