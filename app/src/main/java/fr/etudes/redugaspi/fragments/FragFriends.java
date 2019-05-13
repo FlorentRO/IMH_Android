@@ -157,7 +157,7 @@ public class FragFriends extends Fragment implements IListenItem {
         builder.setNegativeButton("SMS",
                 (dialog, which) -> {
                     Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", finalGetNumber, null));
-                    smsIntent.putExtra("sms_body", "Je t'envoi ce message depuis l'application Polygaspillage, rejoin moi pour moins gaspiller ! Lien");
+                    smsIntent.putExtra("sms_body", "Je t’envoie ce message depuis l’application RéduGaspi, rejoins moi pour moins gaspiller ! Lien de téléchargement");
                     startActivity(smsIntent);
                 });
         builder.show();
