@@ -1,8 +1,10 @@
 package fr.etudes.redugaspi.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fr.etudes.redugaspi.R;
@@ -76,6 +80,19 @@ public class ProductAdapter extends BaseAdapter {
         name.setTag(position);
         quantity.setTag(position);
         date.setTag(position);
+
+        long productMilis = product.getDateMillis();
+        long currentTime = System.currentTimeMillis();
+        long compared = productMilis - currentTime;
+        if(compared <= (AlarmManager.INTERVAL_DAY * 2)){
+            layoutItem.setBackgroundColor(Color.parseColor("yellow"));
+            if(compared <= AlarmManager.INTERVAL_DAY){
+                layoutItem.setBackgroundColor(Color.parseColor("red"));
+                if(compared <= 0){
+                    layoutItem.setBackgroundColor(Color.parseColor("purple"));
+                }
+            }
+        }
 
         return layoutItem;
     }
